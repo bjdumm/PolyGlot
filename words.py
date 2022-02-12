@@ -43,21 +43,17 @@ verbs = {
 
 
 
-fd = open("words.txt" , "rb")
-vocab = pickle.load(fd)
+#fd = open("words.txt" , "rb")
+#vocab = pickle.load(fd)
 
-#fd2 = open("nouns.txt","rb")
-#nouns = pickle.load(fd2)
+#fd2 = open("Nouns.txt","wb")
+#pickle.dump(nouns, fd2)
 
-#fd3 = open("verbs.txt","rb")
-#nouns = pickle.load(fd3)
+#fd3 = open("Verbs.txt","wb")
+#pickle.dump(verbs, fd3)
 
-
-
-#Ideas:
-#Add option to color specific row to make it pop more
-#Add ability to add a language and column -> increment numLangs inject new column with that label
-#Add some buttons for extra features
+#fd3 = open("Adjectives.txt","wb")
+#pickle.dump(adjectives, fd3)
 
 
 
