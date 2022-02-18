@@ -41,6 +41,27 @@ verbs = {
     'Know (Be familiar)': {'German': 'Wissen','Spanish':'conocer','Italian':'smallo','French':'small'}
 }
 
+adverbs = {
+    'Run': {'German': 'Laufen','Spanish':'Correr','Italian':'Buono','French':'Bon'},
+    'Eat': {'German': 'Essen','Spanish':'Comer','Italian':'Mangiare','French':''},
+    'Jump': {'German': 'springen','Spanish':'saltar','Italian':'saltare','French':'big'},
+    'Know (Be familiar)': {'German': 'Wissen','Spanish':'conocer','Italian':'smallo','French':'small'}
+}
+
+preps = {
+    'Run': {'German': 'Laufen','Spanish':'Correr','Italian':'Buono','French':'Bon'},
+    'Eat': {'German': 'Essen','Spanish':'Comer','Italian':'Mangiare','French':''},
+    'Jump': {'German': 'springen','Spanish':'saltar','Italian':'saltare','French':'big'},
+    'Know (Be familiar)': {'German': 'Wissen','Spanish':'conocer','Italian':'smallo','French':'small'}
+}
+
+other = {
+    'Run': {'German': 'Laufen','Spanish':'Correr','Italian':'Buono','French':'Bon'},
+    'Eat': {'German': 'Essen','Spanish':'Comer','Italian':'Mangiare','French':''},
+    'Jump': {'German': 'springen','Spanish':'saltar','Italian':'saltare','French':'big'},
+    'Know (Be familiar)': {'German': 'Wissen','Spanish':'conocer','Italian':'smallo','French':'small'}
+}
+
 
 
 #fd = open("words.txt" , "rb")
@@ -55,7 +76,12 @@ verbs = {
 #fd3 = open("Adjectives.txt","wb")
 #pickle.dump(adjectives, fd3)
 
+#with open("Adverbs.txt","wb") as fd:
+    #pickle.dump(adverbs, fd)
 
+with open("Adverbs.txt","rb") as fd:
+    dic = pickle.load(fd)
+#print(dic)
 
 #len(list(dic)) -> Number of rows
 #len(list(dic)[0]) -> Number of cols
