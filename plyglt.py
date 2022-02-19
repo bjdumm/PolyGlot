@@ -62,8 +62,11 @@ class TestFrame(wx.Frame):
         if os.path.exists("otherSections.txt"):
             with open("otherSections.txt","rb") as fd:
                 self.otherList = pickle.load(fd)
+        
+        
         with open("sections.txt","rb") as fd:
             self.sections = pickle.load(fd)
+        
             
         #How about a list of nodes for noun, a lsit for verbs, etc. append to it, easy to loop and place one by one in parent. The problem
         #is newly created root level categories(Maybe just don't allow that. Add preps, adverbs etc. then just have options to add new cateogry to each of those?)
@@ -159,6 +162,15 @@ class TestFrame(wx.Frame):
                 words[k][lang] = ""
         with open("words.txt","wb") as fd:
             pickle.dump(words,fd)
+        
+        for section in self.sections:
+            with open(f"{self.sections[section]}.txt","rb") as fd:
+                dic = pickle.load(fd)
+                for k in dic:
+                    dic[k][lang] = ""
+            with open(f"{self.sections[section]}.txt","wb") as fd:
+                pickle.dump(dic,fd)
+
         global numLangs
         numLangs = numLangs + 1
         print(numLangs)
@@ -175,6 +187,18 @@ class TestFrame(wx.Frame):
                 dic = pickle.load(fd)
         elif (self.currentGrid == "Adverbs"):
             with open("Adverbs.txt","rb") as fd:
+                dic = pickle.load(fd)
+        elif (self.currentGrid == "Verbs"):
+            with open("Verbs.txt","rb") as fd:
+                dic = pickle.load(fd)
+        elif (self.currentGrid == "Adjectives"):
+            with open("Adjectives.txt","rb") as fd:
+                dic = pickle.load(fd)
+        elif (self.currentGrid == "Prepositions"):
+            with open("Prepositions.txt","rb") as fd:
+                dic = pickle.load(fd)
+        elif (self.currentGrid == "Other"):
+            with open("Other.txt","rb") as fd:
                 dic = pickle.load(fd)
         elif (self.currentGrid in self.sections):
             fd = open(f"{self.sections[self.currentGrid]}","rb")
@@ -232,6 +256,18 @@ class TestFrame(wx.Frame):
                 pickle.dump(dic, fh)
         elif (self.currentGrid == "Adverbs"):
             with open('Adverbs.txt','wb') as fh:
+                pickle.dump(dic, fh)
+        elif (self.currentGrid == "Adjectives"):
+            with open('Adjectives.txt','wb') as fh:
+                pickle.dump(dic, fh)
+        elif (self.currentGrid == "Verbs"):
+            with open('Verbs.txt','wb') as fh:
+                pickle.dump(dic, fh)
+        elif (self.currentGrid == "Prepositions"):
+            with open('Prepositions.txt','wb') as fh:
+                pickle.dump(dic, fh)
+        elif (self.currentGrid == "Other"):
+            with open('Other.txt','wb') as fh:
                 pickle.dump(dic, fh)
         elif (self.currentGrid in self.nounList):
             with open(f"{self.nounList[self.currentGrid]}",'wb') as fh:
@@ -320,6 +356,8 @@ class TestFrame(wx.Frame):
                     dic = pickle.load(f)
                     if (len(dic) > 0):
                         displayWords(self.grid, dic)
+                    
+                        
     
     def deleteSection(self,e):
         #Check parent -> THen remove from that sectionList and pickle -> remove node with function

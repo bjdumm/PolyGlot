@@ -35,10 +35,10 @@ nouns = {
 }
 
 verbs = {
-    'Run': {'German': 'Laufen','Spanish':'Correr','Italian':'Buono','French':'Bon'},
-    'Eat': {'German': 'Essen','Spanish':'Comer','Italian':'Mangiare','French':''},
-    'Jump': {'German': 'springen','Spanish':'saltar','Italian':'saltare','French':'big'},
-    'Know (Be familiar)': {'German': 'Wissen','Spanish':'conocer','Italian':'smallo','French':'small'}
+    'Run': {'German': 'Laufen','Spanish':'Correr','Italian':'Buono','French':'Bon','Latin':''},
+    'Eat': {'German': 'Essen','Spanish':'Comer','Italian':'Mangiare','French':'','Latin':''},
+    'Jump': {'German': 'springen','Spanish':'saltar','Italian':'saltare','French':'big','Latin':''},
+    'Know (Be familiar)': {'German': 'Wissen','Spanish':'conocer','Italian':'smallo','French':'small','Latin':''}
 }
 
 adverbs = {
@@ -79,9 +79,33 @@ other = {
 #with open("Adverbs.txt","wb") as fd:
     #pickle.dump(adverbs, fd)
 
-with open("Adverbs.txt","rb") as fd:
-    dic = pickle.load(fd)
+#with open("Adverbs.txt","rb") as fd:
+#    dic = pickle.load(fd)
 #print(dic)
+
+#with open("Prepositions.txt","wb") as fd:
+#    dic = {
+#        'On': {'German': 'Auf','Spanish':'en','Italian':'','French':'Bon','Latin':'inni'}
+#    }
+#    pickle.dump(dic, fd)
+
+#with open("Other.txt","wb") as fd:
+#    dic = {
+#        'Other': {'German': 'Andere','Spanish':'otro','Italian':'','French':'?','Latin':'inni'}
+#    }
+#    pickle.dump(dic, fd)
+
+#with open("Verbs.txt","wb") as fd:
+#    pickle.dump(verbs,fd)
+    
+#print(dic)
+
+#with open("Other.txt","rb") as fd:
+#    dic = pickle.load(fd)
+#print(dic)
+
+
+
 
 #len(list(dic)) -> Number of rows
 #len(list(dic)[0]) -> Number of cols
