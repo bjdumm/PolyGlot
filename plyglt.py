@@ -5,6 +5,10 @@ import os
 import pickle
 import words
 
+
+#Add funciton to sort alphabetically each list when it's intially loaded
+#in or before it gets dumped
+
 #numLangs = 4
 with open("numLangs.txt","rb") as fd:
     numLangs = pickle.load(fd)
@@ -116,7 +120,7 @@ class TestFrame(wx.Frame):
         #Center Grid
         self.gridPanel = wx.Panel(self, size=wx.Size(1000,1000), pos=wx.Point(150,0))
         self.grid = wx.grid.Grid(self.gridPanel,size=wx.Size(1000,1000))
-        self.grid.CreateGrid(500 ,self.numLangs + 3)
+        self.grid.CreateGrid(1000 ,self.numLangs + 3)
         self.grid.SetDefaultCellBackgroundColour(wx.Colour(255,255,255))
         self.grid.SetDefaultCellOverflow(False)
         self.grid.SetDefaultCellFont(wx.Font(11,wx.FONTFAMILY_DEFAULT,wx.FONTSTYLE_NORMAL,wx.FONTWEIGHT_MEDIUM))
