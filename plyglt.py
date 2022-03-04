@@ -140,10 +140,14 @@ class TestFrame(wx.Frame):
         self.enterAdj.SetInsertionPoint(0)
         self.enterAdverb = wx.TextCtrl(self.langPanel, -1,"", wx.Point(175,90))
         self.enterAdverb.SetInsertionPoint(0)
+        self.enterOther = wx.TextCtrl(self.langPanel, -1,"", wx.Point(175,115))
+        self.enterOther.SetInsertionPoint(0)
         nounBtn = wx.Button(self.langPanel, label="Add Noun Category: ", size=wx.Size(135,23), pos=wx.Point(25,15))
         verbBtn = wx.Button(self.langPanel, label="Add Verb Category: ", size=wx.Size(135,23), pos=wx.Point(25,40))
         adjBtn = wx.Button(self.langPanel, label="Add Adjective Category: ", size=wx.Size(135,23), pos=wx.Point(25,65))
         adverbBtn = wx.Button(self.langPanel, label="Add Adverb Category: ", size=wx.Size(135,23), pos=wx.Point(25,90))
+        otherBtn = wx.Button(self.langPanel, label="Add Other Category: ", size=wx.Size(135,23), pos=wx.Point(25,115))
+        otherBtn.Bind(wx.EVT_BUTTON, self.addOther)
         nounBtn.Bind(wx.EVT_BUTTON, self.addNoun)
         verbBtn.Bind(wx.EVT_BUTTON, self.addVerb)
         adjBtn.Bind(wx.EVT_BUTTON, self.addAdj)
@@ -285,6 +289,9 @@ class TestFrame(wx.Frame):
         elif (self.currentGrid in self.verbList):
             with open(f"{self.verbList[self.currentGrid]}",'wb') as fh:
                 pickle.dump(dic,fh)
+        elif (self.currentGrid in self.otherList):
+            with open(f"{self.otherList[self.currentGrid]}",'wb') as fh:
+                pickle.dump(dic,fh)
         else:
             with open(f"{self.sections[self.currentGrid]}",'wb') as fh:
                 pickle.dump(dic, fh)
@@ -320,7 +327,12 @@ class TestFrame(wx.Frame):
             with open(f"{label}.txt","wb") as fd:
                 pickle.dump(dic, fd)
         else:
-            pass
+            self.otherList[f"{label}"] = f"{label}.txt" 
+            with open("otherSections.txt","wb") as f:
+                pickle.dump(self.otherList,f)
+            dic = {}
+            with open(f"{label}.txt","wb") as fd:
+                pickle.dump(dic, fd)
         
     def addNoun(self,e):
         newSection = self.enterNoun.GetLineText(0)
@@ -342,6 +354,11 @@ class TestFrame(wx.Frame):
         idx = self.tree.GetChildrenCount(self.adverbs,recursively=False)
         self.newLabel = self.tree.InsertItem(self.adverbs, idx, newSection)
         self.addFile(newSection,"Adverbs")
+    def addOther(self,e):
+        newSection = self.enterOther.GetLineText(0)
+        idx = self.tree.GetChildrenCount(self.other,recursively=False)
+        self.newLabel = self.tree.InsertItem(self.other, idx, newSection)
+        self.addFile(newSection,"Other")
         
         
     def ChangeContent(self,e):
