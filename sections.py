@@ -9,4 +9,3 @@ with open("sections.txt","wb") as fd:
 
 with open("sections.txt","rb") as fd:
     test = pickle.load(fd)
-print(test)
