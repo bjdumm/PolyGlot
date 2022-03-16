@@ -6,18 +6,21 @@ import pickle
 #E.x.  eng['Hello']['German] = 'Hallo'
 
 vocab = {
-    'Hello': {'German': 'Hallo','Spanish':'Hola','Italian':'Ciao','French':'Bonjour'},
-    'Goodbye': {'German': 'Auf Wiedersehen','Spanish':'Adios','Italian':'Ciao','French':'Au Revoir'},
-    'Boy': {'German': 'Der Junge','Spanish':'el nino','Italian':'il boyi','French':'le garcon'},
-    'To Eat': {'German': 'Essen','Spanish':'comer','Italian':'mangiare','French':'mangiare'},
-    'Good': {'German': 'Gut','Spanish':'Bueno','Italian':'Buono','French':'Bon'},
-    'Bad': {'German': 'Schlimm/Schlecht','Spanish':'mal','Italian':'Ciao','French':'bado'},
-    'Big': {'German': 'Gross','Spanish':'grande','Italian':'big','French':'big'},
-    'Small': {'German': 'klein','Spanish':'poco','Italian':'smallo','French':'small'},
-    'Dog': {'German': 'der Hund','Spanish':'el perro','Italian':'Buono','French':'Bon'},
-    'Cat': {'German': 'die Katze','Spanish':'el gato','Italian':'Ciao','French':'bado'},
-    'Bat': {'German': 'Fliedermaus','Spanish':'grande','Italian':'big','French':'big'},
-    'Elephant': {'German': '','Spanish':'el elefante','Italian':'smallo','French':'small'}
+    
+    'Hello': {'German': 'Hallo', 'Spanish': 'Hola', 'Italian': 'Ciao', 'French' : 'Fr', 'Latin': 'elli', 'DeleteMe': ''}, 
+    'Goodbye': {'German': 'Auf Wiedersehen', 'Spanish': 'Adios', 'Italian': 'Ciao', 'French':'Fr','Latin': 'govni', 'DeleteMe': ''},
+    'Boy': {'German': 'Der Junge', 'Spanish': 'el nino', 'Italian': 'il boyi', 'French':'Fr', 'Latin': 'sumni', 'DeleteMe': ''},
+    'To Eat': {'German': 'Essen', 'Spanish': 'comer', 'Italian': 'mangiare', 'French':'Fr', 'Latin': 'eatere', 'DeleteMe': ''},
+    'Good': {'German': 'Gut', 'Spanish': 'Bueno', 'Italian': 'Buono', 'French':'Fr', 'Latin': 'bene', 'DeleteMe': ''},
+    'Bad': {'German': 'Schlimm/Schlecht', 'Spanish': 'mal', 'Italian': 'Ciao', 'French':'Fr', 'Latin': 'ello', 'DeleteMe': ''},
+    'Big': {'German': 'Gross', 'Spanish': 'grande', 'Italian': 'big', 'French':'Fr', 'Latin': 'does', 'DeleteMe': ''}, 
+    'Small': {'German': 'klein', 'Spanish': 'poco', 'Italian': 'smallo', 'French':'Fr', 'Latin': 'this', 'DeleteMe': ''},
+    'Dog': {'German': 'der Hund', 'Spanish': 'el perro', 'Italian': 'Buono', 'French':'Fr', 'Latin': 'work', 'DeleteMe': ''},
+    'Cat': {'German': 'die Katze', 'Spanish': 'el gato', 'Italian': 'Ciao', 'French':'Fr', 'Latin': 'now?', 'DeleteMe': ''},
+    'Bat': {'German': 'Fliedermaus', 'Spanish': 'grande', 'Italian': 'big', 'French':'Fr', 'Latin': '', 'DeleteMe': ''},
+    'Elephant': {'German': '', 'Spanish': 'el elefante', 'Italian': 'smallo', 'French':'Fr', 'Latin': '', 'DeleteMe': ''},
+    'ello': {'German': '', 'Spanish': '', 'Italian': '', 'French':'Fr', 'Latin': '', 'DeleteMe': ''},
+    'govna': {'German': '', 'Spanish': '', 'Italian': '', 'French':'Fr', 'Latin': '', 'DeleteMe': ''}
 }
 
 adjectives = {
@@ -67,8 +70,12 @@ other = {
 #fd = open("words.txt" , "rb")
 #vocab = pickle.load(fd)
 
-#fd2 = open("Nouns.txt","wb")
-#pickle.dump(nouns, fd2)
+#with open("words.txt","wb") as fd2:
+#    pickle.dump(vocab, fd2)
+
+with open("words.txt" , "rb") as fd:
+    v = pickle.load(fd)
+    print(v)
 
 #fd3 = open("Verbs.txt","wb")
 #pickle.dump(verbs, fd3)

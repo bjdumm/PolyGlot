@@ -1,8 +1,14 @@
-import pickle
-with open("adjSections.txt","rb") as fd:
-    dic = pickle.load(fd)
-    dic.pop("Testing")
-print(dic)
+import googletrans
+import os
+from utils import loadPickle,dumpPickle
 
-with open("adjSections.txt","wb") as fd:
-    pickle.dump(dic,fd)
+
+
+
+
+
+
+
+
+
+
