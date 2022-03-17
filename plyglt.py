@@ -119,10 +119,13 @@ class TestFrame(wx.Frame):
         #    with open(f"{self.sections[section]}","wb") as fd:
         #        pickle.dump(dic,fd)
 
-        addLanguage(lang)
         global numLangs
-        numLangs = numLangs + 1
-        dumpPickle("numLangs.txt",numLangs)
+        try:
+            addLanguage(lang)
+            numLangs = numLangs + 1
+            dumpPickle("numLangs.txt",numLangs)
+        except:
+            print("Didnt' succesfully add language")
 
         self.grid.ClearGrid()
         newWords = loadPickle(f"{self.currentGrid}.txt")
@@ -136,11 +139,9 @@ class TestFrame(wx.Frame):
         language = self.removeLangBox.GetLineText(0)
         #language = language.lower()
         words = loadPickle("words.txt")
-        loweredKeys = []
         
         if (language not in words[list(words.keys())[0]]):
-            box2 = wx.MessageDialog(None,f"THat language is not in the data","Blahblah",wx.OK)
-            res = box2.ShowModal()
+            box2 = wx.MessageDialog(None,f"THat language is not in the data, Please enter language exactly as seen on the table","Remove Language",wx.OK)
             box2.Destroy()
         else:
             NO = 5104
@@ -156,13 +157,15 @@ class TestFrame(wx.Frame):
     
     def removeLang(self, lang):
         global numLangs
-        words = loadPickle("words.txt")
-        #Go through every section and pop
-        newWords = delLanguage(words, lang)
-        dumpPickle("words.txt",newWords)
-        numLangs = numLangs - 1
-        dumpPickle("numLangs.txt", numLangs) 
-        displayWords(self.grid, newWords)
+        try:
+            delLanguage(lang)
+            numLangs = numLangs - 1
+            dumpPickle("numLangs.txt", numLangs)
+        except:
+            print("Something went wrong, remove language didn't work")
+        
+        data = loadPickle(f"{self.currentGrid}.txt") 
+        displayWords(self.grid, data)
         return   
 
 

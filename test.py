@@ -20,6 +20,10 @@ print("The current adverb sections are: ", adv)
 #print("The current noun sections are: ", nSec)
 
 
+#sections = loadPickle("sections.txt")
+#for sec in sections:
+#    dic = loadPickle(f"{sections[sec]}")
+#    print(dic)
 
 
 
