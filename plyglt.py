@@ -17,7 +17,7 @@ class TestFrame(wx.Frame):
         self.numLangs = loadPickle("numLangs.txt")
         self.rootIdx = 2
         self.vocabIdx = 2
-        self.currentGrid = "Vocab"
+        self.currentGrid = "words"
         self.nounList = loadPickle("nounSections.txt")
         self.adjectiveList = loadPickle("adjSections.txt")
         self.adverbList = loadPickle("adverbSections.txt")
@@ -105,20 +105,7 @@ class TestFrame(wx.Frame):
     #Add a language to the grid
     def addLang(self,e):
         lang = self.addLangBox.GetLineText(0)
-        #words = loadPickle("words.txt")
-        #for k in words:
-        #    words[k][lang] = ""
-        #dumpPickle("words.txt",words)
         
-        #MAKE SURE IT GOES THROUGH EVERY SINGLE SECTION AND EXPLICITLY ADDS
-        #for section in self.sections:
-        #    with open(f"{self.sections[section]}","rb") as fd:
-        #        dic = pickle.load(fd)
-        #        for k in dic:
-        #            dic[k][lang] = ""
-        #    with open(f"{self.sections[section]}","wb") as fd:
-        #        pickle.dump(dic,fd)
-
         global numLangs
         try:
             addLanguage(lang)
@@ -203,18 +190,19 @@ class TestFrame(wx.Frame):
         lang = self.grid.GetColLabelValue(col)
         oldWord = e.GetString()
         newWord = self.grid.GetCellValue(row , col)
-        global numLangs
+        #global numLangs
+        numberOfLangs = len(dic[list(dic)[0]])
         if (lang == 'English'):
             if (newWord == ""):
                 dic.pop(oldWord)
             else:
                 dic[newWord] = {}   
-                for i in range(numLangs):
+                for i in range(1,numberOfLangs+1):
                     fCol = self.grid.GetColLabelValue(i)
                     foreignWord = self.grid.GetCellValue(row, i)
                     dic[newWord][fCol] = foreignWord
         else:
-            engWord = self.grid.GetCellValue(row, numLangs)
+            engWord = self.grid.GetCellValue(row, 0)
             if (engWord !=  ""):
                 dic[engWord][lang] = newWord
 

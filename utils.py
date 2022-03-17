@@ -7,19 +7,21 @@ import wx.grid
 #Display words in dictionary in cells
 #Pass the grid object and dictionary to be printed
 def displayWords(grid, words):
-    numLangs = loadPickle("numLangs.txt")
+    
+    colRange = len(words[list(words)[0]]) + 1
     for row in range(len(list(words))):
         word = list(words)[row]
-        grid.SetCellValue(row, numLangs, list(words)[row])
-        grid.SetColLabelValue(numLangs, 'English')
-        for col in range(len(words[list(words)[0]])):
+        grid.SetCellValue(row, 0, list(words)[row])
+        grid.SetColLabelValue(0, 'English')
+        for col in range(1,colRange):
             engWord = list(words)[0]
-            foreignWord = words[engWord]
-            grid.SetCellValue(row,col, words[word][list(foreignWord)[col]])
+            foreignDic = words[engWord]  #THe foreign dic for engWord
+            grid.SetCellValue(row,col, words[word][list(foreignDic)[col-1]])
     
-    engWord = list(words)[0]
-    for col in range(len(words[list(words)[0]])):
-        grid.SetColLabelValue(col, list(words[engWord])[col])
+    #Language Labels
+    engWord = list(words)[0]  #Just grabs first english word (could be any one)
+    for col in range(1,len(words[engWord])+1):  #Gets first english word dictionary
+        grid.SetColLabelValue(col, list(words[engWord])[col-1])
 
 #Function to load a pickled dictionary and return it
 def loadPickle(file):
@@ -160,32 +162,3 @@ def deleteSection():
     pass
 def addFile():
     pass
-
-
-"""
-def renderSection(grid, section):
-    nounSections = loadPickle("nounSections.txt")
-    adverbSections = loadPickle("adverbSections.txt")
-    adjectiveSections = loadPickle("adjSections.txt")
-    verbSections = loadPickle("verbSections.txt")
-    otherSections = loadPickle("otherSections.txt")
-
-    if (os.path.exists(f"{section}.txt")):
-        data = loadPickle(f"{section}.txt")
-    elif (section in nounSections):
-        data = loadPickle(nounSections[section])
-    elif (section in adverbSections):
-        data = loadPickle(f"{section}.txt")
-    elif (section in adjectiveSections):
-        data = loadPickle(f"{section}.txt")
-    elif (section in verbSections):
-        data = loadPickle(f"{verbSections[section]}")
-    elif (section in otherSections):
-        data = loadPickle(f"{otherSections[section]}")
-    else:
-        print("Section was not found.")
-    
-    displayWords(grid, data)
-
-    return
-"""
