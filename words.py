@@ -67,15 +67,11 @@ other = {
 
 
 
-#fd = open("words.txt" , "rb")
-#vocab = pickle.load(fd)
 
-#with open("words.txt","wb") as fd2:
-#    pickle.dump(vocab, fd2)
-
-with open("words.txt" , "rb") as fd:
-    v = pickle.load(fd)
-    print(v)
+#Use this to manually reset words dictionary
+#with open("words.txt" , "rb") as fd:
+#    v = pickle.load(fd)
+#    print(v)
 
 #fd3 = open("Verbs.txt","wb")
 #pickle.dump(verbs, fd3)

@@ -14,7 +14,7 @@ class TestFrame(wx.Frame):
                           size=(640,480)) 
         
         #Global Variables for Entire Frame
-        self.numLangs = 4
+        self.numLangs = loadPickle("numLangs.txt")
         self.rootIdx = 2
         self.vocabIdx = 2
         self.currentGrid = "Vocab"
@@ -59,7 +59,7 @@ class TestFrame(wx.Frame):
         #Center Grid
         self.gridPanel = wx.Panel(self, size=wx.Size(1000,1000), pos=wx.Point(150,0))
         self.grid = wx.grid.Grid(self.gridPanel,size=wx.Size(1000,1000))
-        self.grid.CreateGrid(1000 ,self.numLangs + 3)
+        self.grid.CreateGrid(1000 ,self.numLangs + 5)
         self.grid.SetDefaultCellBackgroundColour(wx.Colour(255,255,255))
         self.grid.SetDefaultCellOverflow(False)
         self.grid.SetDefaultCellFont(wx.Font(11,wx.FONTFAMILY_DEFAULT,wx.FONTSTYLE_NORMAL,wx.FONTWEIGHT_MEDIUM))
@@ -105,23 +105,31 @@ class TestFrame(wx.Frame):
     #Add a language to the grid
     def addLang(self,e):
         lang = self.addLangBox.GetLineText(0)
-        words = loadPickle("words.txt")
-        for k in words:
-            words[k][lang] = ""
-        dumpPickle("words.txt",words)
+        #words = loadPickle("words.txt")
+        #for k in words:
+        #    words[k][lang] = ""
+        #dumpPickle("words.txt",words)
         
-        for section in self.sections:
-            with open(f"{self.sections[section]}","rb") as fd:
-                dic = pickle.load(fd)
-                for k in dic:
-                    dic[k][lang] = ""
-            with open(f"{self.sections[section]}","wb") as fd:
-                pickle.dump(dic,fd)
+        #MAKE SURE IT GOES THROUGH EVERY SINGLE SECTION AND EXPLICITLY ADDS
+        #for section in self.sections:
+        #    with open(f"{self.sections[section]}","rb") as fd:
+        #        dic = pickle.load(fd)
+        #        for k in dic:
+        #            dic[k][lang] = ""
+        #    with open(f"{self.sections[section]}","wb") as fd:
+        #        pickle.dump(dic,fd)
 
+        addLanguage(lang)
         global numLangs
         numLangs = numLangs + 1
         dumpPickle("numLangs.txt",numLangs)
-        displayWords(self.grid, words)
+
+        self.grid.ClearGrid()
+        newWords = loadPickle(f"{self.currentGrid}.txt")
+        displayWords(self.grid, newWords)
+        
+        #renderSection(self.grid, self.currentGrid)
+        
 
     #Remove a language from the grid  
     def removeOnClick(self,e):
@@ -143,15 +151,17 @@ class TestFrame(wx.Frame):
             if (response == YES):
                 self.removeLang(language)
             else:
-                pass
+                return
 
     
     def removeLang(self, lang):
         global numLangs
         words = loadPickle("words.txt")
+        #Go through every section and pop
         newWords = delLanguage(words, lang)
         dumpPickle("words.txt",newWords)
-        numLangs = numLangs + 1
+        numLangs = numLangs - 1
+        dumpPickle("numLangs.txt", numLangs) 
         displayWords(self.grid, newWords)
         return   
 
