@@ -42,7 +42,7 @@ class TestFrame(wx.Frame):
         for idx, k in enumerate(self.verbList):
             self.tree.InsertItem(self.verbs,idx,k)
         
-        self.vocab = self.tree.InsertItem(root,3,"Vocab")   
+        self.vocab = self.tree.InsertItem(root,3,"words")   
         
         self.adverbs = self.tree.InsertItem(root,4,"Adverbs")
         for idx, k in enumerate(self.adverbList):
@@ -106,7 +106,7 @@ class TestFrame(wx.Frame):
     def addLang(self,e):
         lang = self.addLangBox.GetLineText(0)
         
-        global numLangs
+        numLangs = loadPickle("numLangs.txt")
         try:
             addLanguage(lang)
             numLangs = numLangs + 1
@@ -117,8 +117,6 @@ class TestFrame(wx.Frame):
         self.grid.ClearGrid()
         newWords = loadPickle(f"{self.currentGrid}.txt")
         displayWords(self.grid, newWords)
-        
-        #renderSection(self.grid, self.currentGrid)
         
 
     #Remove a language from the grid  
@@ -143,7 +141,7 @@ class TestFrame(wx.Frame):
 
     
     def removeLang(self, lang):
-        global numLangs
+        numLangs = loadPickle("numLangs.txt")
         try:
             delLanguage(lang)
             numLangs = numLangs - 1
@@ -151,7 +149,11 @@ class TestFrame(wx.Frame):
         except:
             print("Something went wrong, remove language didn't work")
         
-        data = loadPickle(f"{self.currentGrid}.txt") 
+        self.grid.ClearGrid()
+        data = loadPickle(f"{self.currentGrid}.txt")
+        for i in range(numLangs):
+            if self.grid.GetColLabelValue(i) == lang:
+                self.grid.HideCol(i) 
         displayWords(self.grid, data)
         return   
 
@@ -288,16 +290,14 @@ class TestFrame(wx.Frame):
         if (item != self.currentGrid):
             self.grid.ClearGrid()
             self.currentGrid = item
-            if (item=="Vocab"):
-                with open("words.txt" , 'rb') as f:
-                    dic = pickle.load(f)
-                    self.grid.ClearGrid()
-                    displayWords(self.grid, dic)
+            if (item=="words"):
+                dic = loadPickle("words.txt")
+                self.grid.ClearGrid()
+                displayWords(self.grid, dic)
             else:
-                with open(f"{item}.txt","rb") as f:
-                    dic = pickle.load(f)
-                    if (len(dic) > 0):
-                        displayWords(self.grid, dic)
+                dic = loadPickle(f"{item}.txt")  
+                if (len(dic) > 0):
+                    displayWords(self.grid, dic)
                     
     def deleteSection(self,e):
         #Check parent -> THen remove from that sectionList and pickle -> remove node with function

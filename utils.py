@@ -8,6 +8,10 @@ import wx.grid
 #Pass the grid object and dictionary to be printed
 def displayWords(grid, words):
     
+    #words[list(words)[0]] -> {"German: '', "Spanish: '' .... "}
+    #len(list(words)) -> how many english words there are (rows)
+    #words[word][list(foreignDic)[col]] -> foreign word value at words[engWOrd][ForeignLanguage] for the col'th index in the language label array
+
     colRange = len(words[list(words)[0]]) + 1
     for row in range(len(list(words))):
         word = list(words)[row]
