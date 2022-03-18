@@ -90,6 +90,11 @@ class TestFrame(wx.Frame):
         verbBtn.Bind(wx.EVT_BUTTON, self.addVerb)
         adjBtn.Bind(wx.EVT_BUTTON, self.addAdj)
         adverbBtn.Bind(wx.EVT_BUTTON, self.addAdverbs)
+
+        #Loop through languages and add button show {lang}
+        showHideBtn = wx.Button(self.langPanel, label="Hide En", size=wx.Size(50,50), pos=wx.Point(25,200))
+        showHideBtn.Bind(wx.EVT_BUTTON, self.showHide)
+
         delBtn = wx.Button(self.langPanel,label="Delete Selected Section",size=wx.Size(150,50),pos=wx.Point(250,425))
         delBtn.Bind(wx.EVT_BUTTON,self.deleteSection)
          
@@ -105,7 +110,6 @@ class TestFrame(wx.Frame):
     #Add a language to the grid
     def addLang(self,e):
         lang = self.addLangBox.GetLineText(0)
-        
         numLangs = loadPickle("numLangs.txt")
         try:
             addLanguage(lang)
@@ -283,6 +287,18 @@ class TestFrame(wx.Frame):
         self.newLabel = self.tree.InsertItem(self.other, idx, newSection)
         self.addFile(newSection,"Other")
         
+    
+    def showHide(self, e):
+        obj = e.GetEventObject()
+        label = obj.GetLabel()
+        action = label[0:4]
+        
+        if action == "Hide":
+            self.grid.HideCol(0)
+            obj.SetLabel("Show" + label[4:])
+        elif action == "Show":
+            self.grid.ShowCol(0)
+            obj.SetLabel("Hide" + label[4:])
         
     def ChangeContent(self,e):
         #Add conditional to check which was selected
