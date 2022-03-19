@@ -71,7 +71,8 @@ class TestFrame(wx.Frame):
         self.grid.SetDefaultCellFont(wx.Font(11,wx.FONTFAMILY_DEFAULT,wx.FONTSTYLE_NORMAL,wx.FONTWEIGHT_MEDIUM))
         self.grid.EnableGridLines(True)
         dic = loadPickle("words.txt")
-        displayWords(self.grid, dic)
+        sortedDic = sortDic(dic)
+        displayWords(self.grid, sortedDic)
         self.grid.Bind(wx.grid.EVT_GRID_CELL_CHANGED, self.OnChangeCell)
 
         #Language Panel RHS
@@ -213,14 +214,18 @@ class TestFrame(wx.Frame):
             if (newWord == ""):
                 dic.pop(oldWord)
             else:
-                dic[newWord] = {}   
-                for i in range(1,numberOfLangs+1):
-                    fCol = self.grid.GetColLabelValue(i)
-                    foreignWord = self.grid.GetCellValue(row, i)
-                    if foreignWord == "":
-                        dic[newWord][fCol] = translator.translate(newWord, dest=fCol).text
-                    else:
-                        dic[newWord][fCol] = foreignWord
+                if newWord not in dic:
+                    dic[newWord] = {}   
+                    for i in range(1,numberOfLangs+1):
+                        fCol = self.grid.GetColLabelValue(i)
+                        foreignWord = self.grid.GetCellValue(row, i)
+                        if foreignWord == "":
+                            try:
+                                dic[newWord][fCol] = translator.translate(newWord, dest=fCol).text
+                            except:
+                                print("Language not recognized by Google translate")
+                        else:
+                            dic[newWord][fCol] = foreignWord
         else:
             engWord = self.grid.GetCellValue(row, 0)
             if (engWord !=  ""):
@@ -283,6 +288,8 @@ class TestFrame(wx.Frame):
         dic = {"Enter here": {}}
         for l in langs:
             dic["Enter here"][l] = ""
+
+
         if (section == "Nouns"):
             self.nounList[f"{label}"] = f"{label}.txt" #Pickle this and dump to a list txt file
             dumpPickle("nounSections.txt",self.nounList)   #Add section to list
@@ -352,11 +359,13 @@ class TestFrame(wx.Frame):
             if (item=="words"):
                 dic = loadPickle("words.txt")
                 self.grid.ClearGrid()
-                displayWords(self.grid, dic)
+                sorted = sortDic(dic)
+                displayWords(self.grid, sorted)
             else:
                 dic = loadPickle(f"{item}.txt")  
+                sorted = sortDic(dic)
                 if (len(dic) > 0):
-                    displayWords(self.grid, dic)
+                    displayWords(self.grid, sorted)
                     
     def deleteSection(self,e):
         #Check parent -> THen remove from that sectionList and pickle -> remove node with function

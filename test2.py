@@ -11,15 +11,11 @@ words = loadPickle("words.txt")
 #dumpPickle("words.txt",words)
 
 
+print(words)
 
-d = {
-    'Run': {'German': 'Laufen','Spanish':'Correr','Italian':'Buono','French':'Bon','Latin':''},
-    'Eat': {'German': 'Essen','Spanish':'Comer','Italian':'Mangiare','French':'','Latin':''},
-    'Jump': {'German': 'springen','Spanish':'saltar','Italian':'saltare','French':'big','Latin':''},
-    'Know (Be familiar)': {'German': 'Wissen','Spanish':'conocer','Italian':'smallo','French':'small','Latin':''}
-}
 
-other = dumpPickle("Basic-Phrases.txt",d)
+other = loadPickle("Basic-Phrases.txt")
+print(other)
 
 #dumpPickle("Basic-Phrases.txt",other)
 

@@ -160,8 +160,15 @@ def addLanguage(newLang):
 
 
 #Alphabetizes a dictionary
-def sortDic(data):
-    return sorted(data)
+def sortDic(dic):
+    keys = sorted(dic)
+    sortedDic = {}
+    for k in keys:
+        sortedDic[k] = dic[k]
+    return sortedDic
+
+
+
 def deleteSection():
     pass
 def addFile():
