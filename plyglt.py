@@ -228,10 +228,14 @@ class TestFrame(wx.Frame):
 
         if (self.currentGrid == "Vocab"):
             dumpPickle("words.txt",dic)
+            new = loadPickle(f"words.txt")           
+            displayWords(self.grid, new)
         elif (self.currentGrid == "Adverbs"):
             dumpPickle("Adverbs.txt",dic)
         elif (self.currentGrid == "Adjectives"):
             dumpPickle("Adjectives.txt",dic)
+            new = loadPickle(f"Adjectives.txt")     
+            displayWords(self.grid, new)
         elif (self.currentGrid == "Verbs"):
             dumpPickle("Verbs.txt",dic)
         elif (self.currentGrid == "Prepositions"):
@@ -246,6 +250,8 @@ class TestFrame(wx.Frame):
             dumpPickle(f"{self.adverbList[self.currentGrid]}",dic)
         elif (self.currentGrid in self.verbList):
             dumpPickle(f"{self.verbList[self.currentGrid]}",dic)
+            new = loadPickle(f"{self.verbList[self.currentGrid]}")            
+            displayWords(self.grid, new)
         elif (self.currentGrid in self.otherList):
             dumpPickle(f"{self.otherList[self.currentGrid]}",dic)
             new = loadPickle(f"{self.otherList[self.currentGrid]}")            ###########DO THIS FOR EVERYTHING IN THIS LOOP
