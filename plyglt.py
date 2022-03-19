@@ -176,7 +176,7 @@ class TestFrame(wx.Frame):
     #Action handler to update the grid
     def OnChangeCell(self, e):
         #Change it so it only opens one fd and then dumps to the fd at the bottom
-        if (self.currentGrid == "Vocab"):
+        if (self.currentGrid == "words"):
             dic = loadPickle("words.txt")
         elif (self.currentGrid == "Adverbs"):
             dic = loadPickle("Adverbs.txt")
@@ -226,42 +226,63 @@ class TestFrame(wx.Frame):
             if (engWord !=  ""):
                 dic[engWord][lang] = newWord
 
-        if (self.currentGrid == "Vocab"):
+        if (self.currentGrid == "words"):
             dumpPickle("words.txt",dic)
-            new = loadPickle(f"words.txt")           
+            new = loadPickle("words.txt")           
             displayWords(self.grid, new)
         elif (self.currentGrid == "Adverbs"):
             dumpPickle("Adverbs.txt",dic)
+            new = loadPickle("Adverbs.txt")           
+            displayWords(self.grid, new)
         elif (self.currentGrid == "Adjectives"):
             dumpPickle("Adjectives.txt",dic)
             new = loadPickle(f"Adjectives.txt")     
             displayWords(self.grid, new)
         elif (self.currentGrid == "Verbs"):
             dumpPickle("Verbs.txt",dic)
+            new = loadPickle("Verbs.txt")           
+            displayWords(self.grid, new)
         elif (self.currentGrid == "Prepositions"):
             dumpPickle("Prepositions.txt",dic)
+            new = loadPickle("Prepositions.txt")           
+            displayWords(self.grid, new)
         elif (self.currentGrid == "Other"):
             dumpPickle("Other.txt",dic)
+            new = loadPickle("Other.txt")           
+            displayWords(self.grid, new)
         elif (self.currentGrid in self.nounList):
             dumpPickle(f"{self.nounList[self.currentGrid]}",dic)
+            new = loadPickle(f"{self.nounList[self.currentGrid]}")           
+            displayWords(self.grid, new)
         elif (self.currentGrid in self.adjectiveList):
             dumpPickle(f"{self.adjectiveList[self.currentGrid]}",dic)
+            new = loadPickle(f"{self.adjectiveList[self.currentGrid]}")            
+            displayWords(self.grid, new)
         elif (self.currentGrid in self.adverbList):
             dumpPickle(f"{self.adverbList[self.currentGrid]}",dic)
+            new = loadPickle(f"{self.adverbList[self.currentGrid]}")            
+            displayWords(self.grid, new)
         elif (self.currentGrid in self.verbList):
             dumpPickle(f"{self.verbList[self.currentGrid]}",dic)
             new = loadPickle(f"{self.verbList[self.currentGrid]}")            
             displayWords(self.grid, new)
         elif (self.currentGrid in self.otherList):
             dumpPickle(f"{self.otherList[self.currentGrid]}",dic)
-            new = loadPickle(f"{self.otherList[self.currentGrid]}")            ###########DO THIS FOR EVERYTHING IN THIS LOOP
+            new = loadPickle(f"{self.otherList[self.currentGrid]}")            
             displayWords(self.grid, new)
         else:
             dumpPickle(f"{self.sections[self.currentGrid]}",dic)
+            new = loadPickle(f"{self.sections[self.currentGrid]}")            
+            displayWords(self.grid, new)
             
     #Adds newly created section file to appropriate tree section
     def addFile(self,label,section):
-        dic = {}
+        #Load data -> Grab current languages -> Initalize them in the dic variable
+        d = loadPickle("words.txt")
+        langs = list(d[list(d)[0]])
+        dic = {"Enter here": {}}
+        for l in langs:
+            dic["Enter here"][l] = ""
         if (section == "Nouns"):
             self.nounList[f"{label}"] = f"{label}.txt" #Pickle this and dump to a list txt file
             dumpPickle("nounSections.txt",self.nounList)   #Add section to list
