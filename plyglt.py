@@ -4,8 +4,14 @@ import wx
 import wx.grid
 import os
 import pickle
+import googletrans as gt
 #from utils import loadPickle, dumpPickle, displayWords, numLangs, getLanguageAbbrev, getLanguageName
 from utils import *
+
+class ShowButton:
+    def __init__(self, parent, lbl, sz, ps):
+        btn = wx.Button(parent, label=lbl, size=sz, pos=ps)
+        btn.Bind(wx.EVT_BUTTON, TestFrame.showHide)
 
 
 class TestFrame(wx.Frame):
@@ -59,7 +65,7 @@ class TestFrame(wx.Frame):
         #Center Grid
         self.gridPanel = wx.Panel(self, size=wx.Size(1000,1000), pos=wx.Point(150,0))
         self.grid = wx.grid.Grid(self.gridPanel,size=wx.Size(1000,1000))
-        self.grid.CreateGrid(1000 ,self.numLangs + 5)
+        self.grid.CreateGrid(1000 ,self.numLangs + 3)
         self.grid.SetDefaultCellBackgroundColour(wx.Colour(255,255,255))
         self.grid.SetDefaultCellOverflow(False)
         self.grid.SetDefaultCellFont(wx.Font(11,wx.FONTFAMILY_DEFAULT,wx.FONTSTYLE_NORMAL,wx.FONTWEIGHT_MEDIUM))
@@ -91,9 +97,13 @@ class TestFrame(wx.Frame):
         adjBtn.Bind(wx.EVT_BUTTON, self.addAdj)
         adverbBtn.Bind(wx.EVT_BUTTON, self.addAdverbs)
 
-        #Loop through languages and add button show {lang}
-        showHideBtn = wx.Button(self.langPanel, label="Hide En", size=wx.Size(50,50), pos=wx.Point(25,200))
-        showHideBtn.Bind(wx.EVT_BUTTON, self.showHide)
+        #Hide/Show buttons
+        #data = loadPickle("words.txt")
+        #languages = list(data[list(data)[0]])
+        #for count, lang in enumerate(languages):
+            #showHideBtn = wx.Button(self.langPanel, label="Hide En", size=wx.Size(50,50), pos=wx.Point(25,200))
+            #showHideBtn = ShowButton(self.langPanel, lbl=f"Hide {lang}", sz=wx.Size(75, 50), ps=wx.Point(25 + count*90 ,200))
+            #showHideBtn.Bind(wx.EVT_BUTTON, self.showHide)
 
         delBtn = wx.Button(self.langPanel,label="Delete Selected Section",size=wx.Size(150,50),pos=wx.Point(250,425))
         delBtn.Bind(wx.EVT_BUTTON,self.deleteSection)
@@ -198,6 +208,7 @@ class TestFrame(wx.Frame):
         newWord = self.grid.GetCellValue(row , col)
         #global numLangs
         numberOfLangs = len(dic[list(dic)[0]])
+        translator = gt.Translator()
         if (lang == 'English'):
             if (newWord == ""):
                 dic.pop(oldWord)
@@ -206,7 +217,10 @@ class TestFrame(wx.Frame):
                 for i in range(1,numberOfLangs+1):
                     fCol = self.grid.GetColLabelValue(i)
                     foreignWord = self.grid.GetCellValue(row, i)
-                    dic[newWord][fCol] = foreignWord
+                    if foreignWord == "":
+                        dic[newWord][fCol] = translator.translate(newWord, dest=fCol).text
+                    else:
+                        dic[newWord][fCol] = foreignWord
         else:
             engWord = self.grid.GetCellValue(row, 0)
             if (engWord !=  ""):
@@ -234,6 +248,8 @@ class TestFrame(wx.Frame):
             dumpPickle(f"{self.verbList[self.currentGrid]}",dic)
         elif (self.currentGrid in self.otherList):
             dumpPickle(f"{self.otherList[self.currentGrid]}",dic)
+            new = loadPickle(f"{self.otherList[self.currentGrid]}")            ###########DO THIS FOR EVERYTHING IN THIS LOOP
+            displayWords(self.grid, new)
         else:
             dumpPickle(f"{self.sections[self.currentGrid]}",dic)
             
