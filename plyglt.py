@@ -140,8 +140,11 @@ class TestFrame(wx.Frame):
         #language = language.lower()
         words = loadPickle("words.txt")
         
-        if (language not in words[list(words.keys())[0]]):
+        if (language not in words[list(words.keys())[0]] and language != 'English'):
             box2 = wx.MessageDialog(None,f"THat language is not in the data, Please enter language exactly as seen on the table","Remove Language",wx.OK)
+            box2.Destroy()
+        elif (language == 'English'):
+            box2 = wx.MessageDialog(None,f"English cannot be removed, the words for all languages are stored with relation to their English counterpart","Remove Language",wx.OK)
             box2.Destroy()
         else:
             NO = 5104
@@ -154,7 +157,7 @@ class TestFrame(wx.Frame):
             else:
                 return
 
-    
+    #DOn't allow english to be removed
     def removeLang(self, lang):
         numLangs = loadPickle("numLangs.txt")
         try:
@@ -227,9 +230,29 @@ class TestFrame(wx.Frame):
                         else:
                             dic[newWord][fCol] = foreignWord
         else:
+            
             engWord = self.grid.GetCellValue(row, 0)
             if (engWord !=  ""):
                 dic[engWord][lang] = newWord
+            
+            ###THIS CURRENTLY FUCKS UP
+            #try:
+            #    global key
+            #    for i in range(0, numberOfLangs + 1):
+            #        lng = self.grid.GetColLabelValue(i)
+            #        if lng != lang:
+            #            if self.grid.GetCellValue(row, i) == "":
+            #                self.grid.SetCellValue(row,i, "Testing")
+            #            if lng == "English":
+            #                global key
+            #                key = self.grid.GetCellValue(row,i)
+            #    for j in range(1, numberOfLangs + 1):
+            #        foreign = self.grid.GetCellValue(row, j)
+            #        dic[key] = foreign
+            #except:
+            #    print("Couldn't add to other column")
+
+            
 
         if (self.currentGrid == "words"):
             dumpPickle("words.txt",dic)

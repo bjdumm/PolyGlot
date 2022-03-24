@@ -25,11 +25,12 @@ nSec = loadPickle("nounSections.txt")
 #    dic = loadPickle(f"{sections[sec]}")
 #    print(dic)
 
-nouns = loadPickle("Nouns.txt")
+city = loadPickle("City.txt")
 #for eng in nouns:
 #   nouns[eng]['Latin'] = ""
 #dumpPickle("Nouns.txt", nouns)
-print(nouns)
+print(city.pop('bridge'))
+dumpPickle("City.txt",city)
 
 
 #sections = loadPickle("sections.txt")
