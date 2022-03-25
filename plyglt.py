@@ -100,11 +100,13 @@ class TestFrame(wx.Frame):
         adverbBtn.Bind(wx.EVT_BUTTON, self.addAdverbs)
 
         #Hide/Show buttons
+        showHideEng = ShowButton(self.langPanel, lbl=f"Hide English", sz=wx.Size(75, 50), ps=wx.Point(25 ,200))
+        showHideEng.Bind(wx.EVT_BUTTON, self.showHide)
         data = loadPickle("words.txt")
         languages = list(data[list(data)[0]])
         for count, lang in enumerate(languages):
-            #showHideBtn = wx.Button(self.langPanel, label="Hide En", size=wx.Size(50,50), pos=wx.Point(25,200))
-            showHideBtn = ShowButton(self.langPanel, lbl=f"Hide {lang}", sz=wx.Size(75, 50), ps=wx.Point(25 + count*90 ,200))
+            
+            showHideBtn = ShowButton(self.langPanel, lbl=f"Hide {lang}", sz=wx.Size(75, 50), ps=wx.Point(25 + (count % 6 + 1) * 90 , (200 if count < 6 else 270)))
             showHideBtn.Bind(wx.EVT_BUTTON, self.showHide)
 
         orderBtn = wx.Button(self.langPanel, label="Shuffle\nWords", size=wx.Size(120,60),pos=wx.Point(400,40))
@@ -128,12 +130,25 @@ class TestFrame(wx.Frame):
         obj = e.GetEventObject()
         label = obj.GetLabel()
         action = label[0:4]
+        languageToHide = label[5:]
+        languages = loadPickle("words.txt")
+        languages = list(languages[list(languages.keys())[0]])
         
-        if action == "Hide":
+        if languageToHide == "English" and action == "Hide":
             self.grid.HideCol(0)
+            obj.SetLabel("Show English")
+        elif action == "Show" and languageToHide == "English":
+            self.grid.ShowCol(0)
+            obj.SetLabel("Hide English")
+        elif action == "Hide":
+            for idx in range(len(languages)):
+                if languages[idx] == languageToHide:
+                    self.grid.HideCol(idx+1)
             obj.SetLabel("Show" + label[4:])
         elif action == "Show":
-            self.grid.ShowCol(0)
+            for idx in range(len(languages)):
+                if languages[idx] == languageToHide:
+                    self.grid.ShowCol(idx+1)
             obj.SetLabel("Hide" + label[4:])
 
     
