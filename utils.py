@@ -1,6 +1,7 @@
 from json import load
 import pickle
 import os
+import random 
 import wx
 import wx.grid
 
@@ -50,8 +51,6 @@ def dumpPickle(file,data):
     return True
 
 
-def getLanguageName(lang):
-    return "Garbage"
 
 
 
@@ -169,7 +168,11 @@ def sortDic(dic):
 
 
 
-def deleteSection():
-    pass
-def addFile():
-    pass
+def shuffleDic(dic):
+    keys = list(dic.keys())
+    random.shuffle(keys)
+    shuffledDic = {}
+    for k in keys:
+        shuffledDic[k] = dic[k]
+    return shuffledDic
+

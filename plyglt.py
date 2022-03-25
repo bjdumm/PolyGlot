@@ -8,8 +8,9 @@ import googletrans as gt
 #from utils import loadPickle, dumpPickle, displayWords, numLangs, getLanguageAbbrev, getLanguageName
 from utils import *
 
-class ShowButton:
+class ShowButton(wx.Button):
     def __init__(self, parent, lbl, sz, ps):
+        wx.Button.__init__(self,parent,id=wx.ID_ANY, label=lbl, size=sz, pos=ps)
         btn = wx.Button(parent, label=lbl, size=sz, pos=ps)
         btn.Bind(wx.EVT_BUTTON, TestFrame.showHide)
 
@@ -99,12 +100,15 @@ class TestFrame(wx.Frame):
         adverbBtn.Bind(wx.EVT_BUTTON, self.addAdverbs)
 
         #Hide/Show buttons
-        #data = loadPickle("words.txt")
-        #languages = list(data[list(data)[0]])
-        #for count, lang in enumerate(languages):
+        data = loadPickle("words.txt")
+        languages = list(data[list(data)[0]])
+        for count, lang in enumerate(languages):
             #showHideBtn = wx.Button(self.langPanel, label="Hide En", size=wx.Size(50,50), pos=wx.Point(25,200))
-            #showHideBtn = ShowButton(self.langPanel, lbl=f"Hide {lang}", sz=wx.Size(75, 50), ps=wx.Point(25 + count*90 ,200))
-            #showHideBtn.Bind(wx.EVT_BUTTON, self.showHide)
+            showHideBtn = ShowButton(self.langPanel, lbl=f"Hide {lang}", sz=wx.Size(75, 50), ps=wx.Point(25 + count*90 ,200))
+            showHideBtn.Bind(wx.EVT_BUTTON, self.showHide)
+
+        orderBtn = wx.Button(self.langPanel, label="Shuffle\nWords", size=wx.Size(120,60),pos=wx.Point(400,40))
+        orderBtn.Bind(wx.EVT_BUTTON, self.orderWords)
 
         delBtn = wx.Button(self.langPanel,label="Delete Selected Section",size=wx.Size(150,50),pos=wx.Point(250,425))
         delBtn.Bind(wx.EVT_BUTTON,self.deleteSection)
@@ -117,6 +121,32 @@ class TestFrame(wx.Frame):
         self.removeLangBox.SetInsertionPoint(0)
         remLangBtn = wx.Button(self.langPanel,label="Remove Language: ", size=wx.Size(135,23),pos=wx.Point(325,150))
         remLangBtn.Bind(wx.EVT_BUTTON, self.removeOnClick)
+
+
+
+    def showHide(self, e):
+        obj = e.GetEventObject()
+        label = obj.GetLabel()
+        action = label[0:4]
+        
+        if action == "Hide":
+            self.grid.HideCol(0)
+            obj.SetLabel("Show" + label[4:])
+        elif action == "Show":
+            self.grid.ShowCol(0)
+            obj.SetLabel("Hide" + label[4:])
+
+    
+    def orderWords(self,e):
+        dic = loadPickle(f"{self.currentGrid}.txt")
+        if 2==2:
+            shuffled = shuffleDic(dic)
+            displayWords(self.grid, shuffled)
+        #else:
+        #    alpha = sortDic(dic)
+        #    displayWords(self.grid, alpha)
+            
+
 
     #Add a language to the grid
     def addLang(self,e):
@@ -359,19 +389,7 @@ class TestFrame(wx.Frame):
         idx = self.tree.GetChildrenCount(self.other,recursively=False)
         self.newLabel = self.tree.InsertItem(self.other, idx, newSection)
         self.addFile(newSection,"Other")
-        
     
-    def showHide(self, e):
-        obj = e.GetEventObject()
-        label = obj.GetLabel()
-        action = label[0:4]
-        
-        if action == "Hide":
-            self.grid.HideCol(0)
-            obj.SetLabel("Show" + label[4:])
-        elif action == "Show":
-            self.grid.ShowCol(0)
-            obj.SetLabel("Hide" + label[4:])
         
     def ChangeContent(self,e):
         #Add conditional to check which was selected

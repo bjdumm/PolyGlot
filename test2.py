@@ -5,7 +5,7 @@ import time
 from utils import *
 import wx
 
-#Languages Greek = el, Russian = ru, latin = "La", hindi = "hi", mandarin="zh-CN", arabic="ar"
+#Languages Greek = el, Russian = ru, latin = "La", hindi = "hi", mandarin="zh-CN", arabic="ar", hebrew="iw"
 
 #Delete a language from words
 
