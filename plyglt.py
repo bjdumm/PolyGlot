@@ -138,12 +138,15 @@ class TestFrame(wx.Frame):
         dlg.Destroy()
 
         data = loadPickle(f"{self.currentGrid}.txt")
-        for k in data:
-            if data[k][language] == "":
-                data[k][language] = gt.Translator().translate(k, dest=language).text
-            else:
-                continue
-
+        try:
+            for k in data:
+                if data[k][language] == "":
+                
+                    data[k][language] = gt.Translator().translate(k, dest=language).text 
+                else:
+                    continue
+        except:
+            print("Can't find that language with Googie Trans\n Sorry \n Don't give up!!!")
         displayWords(self.grid, data)
         dumpPickle(f"{self.currentGrid}.txt" , data)
         
@@ -280,7 +283,6 @@ class TestFrame(wx.Frame):
         lang = self.grid.GetColLabelValue(col)
         oldWord = e.GetString()
         newWord = self.grid.GetCellValue(row , col)
-        #global numLangs
         numberOfLangs = len(dic[list(dic)[0]])
         translator = gt.Translator()
         if (lang == 'English'):    #If english was changed -> THen....
@@ -308,7 +310,7 @@ class TestFrame(wx.Frame):
                 for i in range(1,numberOfLangs+1):
                     fWord = self.grid.GetCellValue(row, i)
                     flang = self.grid.GetColLabelValue(i)
-                    if fWord == "":  #Only if there is not foreign word currently
+                    if fWord == "" and flang != lang:  #Only if there is not foreign word currently
                         dic[engWord][flang] = translator.translate(engWord, dest=flang).text
                     else:
                         continue
