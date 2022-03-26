@@ -72,8 +72,8 @@ class TestFrame(wx.Frame):
         self.grid.SetDefaultCellFont(wx.Font(11,wx.FONTFAMILY_DEFAULT,wx.FONTSTYLE_NORMAL,wx.FONTWEIGHT_MEDIUM))
         self.grid.EnableGridLines(True)
         dic = loadPickle("words.txt")
-        sortedDic = sortDic(dic)
-        displayWords(self.grid, sortedDic)
+        #sortedDic = sortDic(dic)
+        displayWords(self.grid, dic)
         self.grid.Bind(wx.grid.EVT_GRID_CELL_CHANGED, self.OnChangeCell)
 
         #Language Panel RHS
@@ -109,8 +109,14 @@ class TestFrame(wx.Frame):
             showHideBtn = ShowButton(self.langPanel, lbl=f"Hide {lang}", sz=wx.Size(75, 50), ps=wx.Point(25 + (count % 6 + 1) * 90 , (200 if count < 6 else 270)))
             showHideBtn.Bind(wx.EVT_BUTTON, self.showHide)
 
-        orderBtn = wx.Button(self.langPanel, label="Shuffle\nWords", size=wx.Size(120,60),pos=wx.Point(400,40))
-        orderBtn.Bind(wx.EVT_BUTTON, self.orderWords)
+        shuffleBtn = wx.Button(self.langPanel, label="Shuffle\nWords", size=wx.Size(120,60),pos=wx.Point(400,40))
+        shuffleBtn.Bind(wx.EVT_BUTTON, self.shuffleWords)
+        sortBtn = wx.Button(self.langPanel, label="Sort\nWords", size=wx.Size(120,60),pos=wx.Point(600,40))
+        sortBtn.Bind(wx.EVT_BUTTON, self.sortWords)
+
+
+        fillBtn = wx.Button(self.langPanel, label="Auto-Fill Empty Words", size=wx.Size(150,60), pos=wx.Point(450,425))
+        fillBtn.Bind(wx.EVT_BUTTON, self.autoFill)
 
         delBtn = wx.Button(self.langPanel,label="Delete Selected Section",size=wx.Size(150,50),pos=wx.Point(250,425))
         delBtn.Bind(wx.EVT_BUTTON,self.deleteSection)
@@ -124,6 +130,23 @@ class TestFrame(wx.Frame):
         remLangBtn = wx.Button(self.langPanel,label="Remove Language: ", size=wx.Size(135,23),pos=wx.Point(325,150))
         remLangBtn.Bind(wx.EVT_BUTTON, self.removeOnClick)
 
+    def autoFill(self, e):
+        dlg = wx.TextEntryDialog(frame, 'Enter the language as shown in the column header','Auto Fill Words')
+        dlg.SetValue("")
+        if dlg.ShowModal() == wx.ID_OK:
+            language = dlg.GetValue()
+        dlg.Destroy()
+
+        data = loadPickle(f"{self.currentGrid}.txt")
+        for k in data:
+            if data[k][language] == "":
+                data[k][language] = gt.Translator().translate(k, dest=language).text
+            else:
+                continue
+
+        displayWords(self.grid, data)
+        dumpPickle(f"{self.currentGrid}.txt" , data)
+        
 
 
     def showHide(self, e):
@@ -152,15 +175,17 @@ class TestFrame(wx.Frame):
             obj.SetLabel("Hide" + label[4:])
 
     
-    def orderWords(self,e):
+    def shuffleWords(self,e):
         dic = loadPickle(f"{self.currentGrid}.txt")
-        if 2==2:
-            shuffled = shuffleDic(dic)
-            displayWords(self.grid, shuffled)
-        #else:
-        #    alpha = sortDic(dic)
-        #    displayWords(self.grid, alpha)
-            
+        
+        shuffled = shuffleDic(dic)
+        displayWords(self.grid, shuffled)
+       
+        
+    def sortWords(self,e):
+        dic = loadPickle(f"{self.currentGrid}.txt")
+        alpha = sortDic(dic)
+        displayWords(self.grid, alpha)    
 
 
     #Add a language to the grid
@@ -258,7 +283,7 @@ class TestFrame(wx.Frame):
         #global numLangs
         numberOfLangs = len(dic[list(dic)[0]])
         translator = gt.Translator()
-        if (lang == 'English'):
+        if (lang == 'English'):    #If english was changed -> THen....
             if (newWord == ""):
                 dic.pop(oldWord)
             else:
@@ -274,29 +299,26 @@ class TestFrame(wx.Frame):
                                 print("Language not recognized by Google translate")
                         else:
                             dic[newWord][fCol] = foreignWord
-        else:
+        else: #Some other language was changed
             
             engWord = self.grid.GetCellValue(row, 0)
             if (engWord !=  ""):
                 dic[engWord][lang] = newWord
             
-            ###THIS CURRENTLY FUCKS UP
-            #try:
-            #    global key
-            #    for i in range(0, numberOfLangs + 1):
-            #        lng = self.grid.GetColLabelValue(i)
-            #        if lng != lang:
-            #            if self.grid.GetCellValue(row, i) == "":
-            #                self.grid.SetCellValue(row,i, "Testing")
-            #            if lng == "English":
-            #                global key
-            #                key = self.grid.GetCellValue(row,i)
-            #    for j in range(1, numberOfLangs + 1):
-            #        foreign = self.grid.GetCellValue(row, j)
-            #        dic[key] = foreign
-            #except:
-            #    print("Couldn't add to other column")
-
+                for i in range(1,numberOfLangs+1):
+                    fWord = self.grid.GetCellValue(row, i)
+                    flang = self.grid.GetColLabelValue(i)
+                    if fWord == "":  #Only if there is not foreign word currently
+                        dic[engWord][flang] = translator.translate(engWord, dest=flang).text
+                    else:
+                        continue
+            
+            else:  #English word is emtpy and foreign lanugae cell has been changed
+                english = translator.translate(newWord, dest="en").text
+                dic[english] = {}
+                for i in range(1,numberOfLangs+1):
+                    flang = self.grid.GetColLabelValue(i)
+                    dic[english][flang] = translator.translate(english, dest=flang).text
             
 
         if (self.currentGrid == "words"):
