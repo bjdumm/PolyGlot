@@ -64,8 +64,8 @@ class TestFrame(wx.Frame):
         self.tree.Bind(wx.EVT_TREE_ITEM_ACTIVATED, self.ChangeContent)
         
         #Center Grid
-        self.gridPanel = wx.Panel(self, size=wx.Size(1000,1000), pos=wx.Point(150,0))
-        self.grid = wx.grid.Grid(self.gridPanel,size=wx.Size(1000,1000))
+        self.gridPanel = wx.Panel(self, size=wx.Size(1025,1000), pos=wx.Point(150,0))
+        self.grid = wx.grid.Grid(self.gridPanel,size=wx.Size(1025,1000))
         self.grid.CreateGrid(1000 ,self.numLangs + 3)
         self.grid.SetDefaultCellBackgroundColour(wx.Colour(255,255,255))
         self.grid.SetDefaultCellOverflow(False)
@@ -88,16 +88,16 @@ class TestFrame(wx.Frame):
         self.enterAdverb.SetInsertionPoint(0)
         self.enterOther = wx.TextCtrl(self.langPanel, -1,"", wx.Point(175,115))
         self.enterOther.SetInsertionPoint(0)
-        nounBtn = wx.Button(self.langPanel, label="Add Noun Category: ", size=wx.Size(135,23), pos=wx.Point(25,15))
-        verbBtn = wx.Button(self.langPanel, label="Add Verb Category: ", size=wx.Size(135,23), pos=wx.Point(25,40))
-        adjBtn = wx.Button(self.langPanel, label="Add Adjective Category: ", size=wx.Size(135,23), pos=wx.Point(25,65))
-        adverbBtn = wx.Button(self.langPanel, label="Add Adverb Category: ", size=wx.Size(135,23), pos=wx.Point(25,90))
-        otherBtn = wx.Button(self.langPanel, label="Add Other Category: ", size=wx.Size(135,23), pos=wx.Point(25,115))
-        otherBtn.Bind(wx.EVT_BUTTON, self.addOther)
-        nounBtn.Bind(wx.EVT_BUTTON, self.addNoun)
-        verbBtn.Bind(wx.EVT_BUTTON, self.addVerb)
-        adjBtn.Bind(wx.EVT_BUTTON, self.addAdj)
-        adverbBtn.Bind(wx.EVT_BUTTON, self.addAdverbs)
+        self.nounBtn = wx.Button(self.langPanel, label="Add Noun Category: ", size=wx.Size(135,23), pos=wx.Point(25,15))
+        self.verbBtn = wx.Button(self.langPanel, label="Add Verb Category: ", size=wx.Size(135,23), pos=wx.Point(25,40))
+        self.adjBtn = wx.Button(self.langPanel, label="Add Adjective Category: ", size=wx.Size(135,23), pos=wx.Point(25,65))
+        self.adverbBtn = wx.Button(self.langPanel, label="Add Adverb Category: ", size=wx.Size(135,23), pos=wx.Point(25,90))
+        self.otherBtn = wx.Button(self.langPanel, label="Add Other Category: ", size=wx.Size(135,23), pos=wx.Point(25,115))
+        self.otherBtn.Bind(wx.EVT_BUTTON, self.addOther)
+        self.nounBtn.Bind(wx.EVT_BUTTON, self.addNoun)
+        self.verbBtn.Bind(wx.EVT_BUTTON, self.addVerb)
+        self.adjBtn.Bind(wx.EVT_BUTTON, self.addAdj)
+        self.adverbBtn.Bind(wx.EVT_BUTTON, self.addAdverbs)
 
         #Hide/Show buttons
         showHideEng = ShowButton(self.langPanel, lbl=f"Hide English", sz=wx.Size(75, 50), ps=wx.Point(25 ,200))
@@ -134,10 +134,21 @@ class TestFrame(wx.Frame):
         dlg = wx.TextEntryDialog(frame, 'Enter the language as shown in the column header','Auto Fill Words')
         dlg.SetValue("")
         if dlg.ShowModal() == wx.ID_OK:
-            language = dlg.GetValue()
+            language = dlg.GetValue().lower()
         dlg.Destroy()
-
+        language = language[0].upper() + language[1:]
+        print(language)
         data = loadPickle(f"{self.currentGrid}.txt")
+        if language.lower() == "mandarin":
+            try:
+                for k in data:
+                    if data[k][language] == "":
+                        data[k][language] = gt.Translator().translate(k, dest="zh-CN").text 
+                    else:
+                        continue
+            except:
+                print("Sorry bud, didn't work for some reason. Don't kill yourself.")
+
         try:
             for k in data:
                 if data[k][language] == "":
@@ -194,6 +205,7 @@ class TestFrame(wx.Frame):
     #Add a language to the grid
     def addLang(self,e):
         lang = self.addLangBox.GetLineText(0)
+        self.addLangBox.SetLabelText("")
         numLangs = loadPickle("numLangs.txt")
         try:
             addLanguage(lang)
@@ -210,6 +222,7 @@ class TestFrame(wx.Frame):
     #Remove a language from the grid  
     def removeOnClick(self,e):
         language = self.removeLangBox.GetLineText(0)
+        self.removeLangBox.SetLabelText("")
         #language = language.lower()
         words = loadPickle("words.txt")
         
@@ -244,7 +257,7 @@ class TestFrame(wx.Frame):
         data = loadPickle(f"{self.currentGrid}.txt")
         for i in range(numLangs):
             if self.grid.GetColLabelValue(i) == lang:
-                self.grid.HideCol(i) 
+                self.grid.DeleteCols(i) 
         displayWords(self.grid, data)
         return   
 
@@ -408,26 +421,31 @@ class TestFrame(wx.Frame):
         idx = self.tree.GetChildrenCount(self.nouns,recursively=False)
         self.newLabel = self.tree.InsertItem(self.nouns, idx, newSection)
         self.addFile(newSection,"Nouns")
+        self.enterNoun.SetLabelText("")
     def addVerb(self,e):
         newSection = self.enterVerb.GetLineText(0)
         idx = self.tree.GetChildrenCount(self.verbs,recursively=False)
         self.newLabel = self.tree.InsertItem(self.verbs, idx, newSection)
         self.addFile(newSection,"Verbs")
+        self.enterVerb.SetLabelText("")
     def addAdj(self,e):
         newSection = self.enterAdj.GetLineText(0)
         idx = self.tree.GetChildrenCount(self.adjectives,recursively=False)
         self.newLabel = self.tree.InsertItem(self.adjectives, idx, newSection)
         self.addFile(newSection,"Adjectives")
+        self.enterAdj.SetLabelText("")
     def addAdverbs(self,e):
         newSection = self.enterAdverb.GetLineText(0)
         idx = self.tree.GetChildrenCount(self.adverbs,recursively=False)
         self.newLabel = self.tree.InsertItem(self.adverbs, idx, newSection)
         self.addFile(newSection,"Adverbs")
+        self.enterAdverb.SetLabelText("")
     def addOther(self,e):
         newSection = self.enterOther.GetLineText(0)
         idx = self.tree.GetChildrenCount(self.other,recursively=False)
         self.newLabel = self.tree.InsertItem(self.other, idx, newSection)
         self.addFile(newSection,"Other")
+        self.enterOther.SetLabelText("")
     
         
     def ChangeContent(self,e):
@@ -451,12 +469,13 @@ class TestFrame(wx.Frame):
         #Check parent -> THen remove from that sectionList and pickle -> remove node with function
         NO = 5104
         YES = 5103
-        box = wx.MessageDialog(None,"Are you sure you want to delete the selected section?","Delete Section",wx.YES_NO)
+        treeItem = self.tree.GetFocusedItem()  #wx TreeItem
+        title = self.tree.GetItemText(treeItem)
+        box = wx.MessageDialog(None,f"Are you sure you want to delete the {title} section?","Delete Section",wx.YES_NO)
         response = box.ShowModal()
         box.Destroy()
         if (response == YES):
-            treeItem = self.tree.GetFocusedItem()  #wx TreeItem
-            title = self.tree.GetItemText(treeItem)
+              
             deletedParent = self.tree.GetItemParent(treeItem)  #wx TreeItem of parent
             self.tree.Delete(treeItem)
             
