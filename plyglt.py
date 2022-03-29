@@ -25,12 +25,12 @@ class TestFrame(wx.Frame):
         self.rootIdx = 2
         self.vocabIdx = 2
         self.currentGrid = "words"
-        self.nounList = loadPickle("nounSections.txt")
-        self.adjectiveList = loadPickle("adjSections.txt")
-        self.adverbList = loadPickle("adverbSections.txt")
-        self.verbList = loadPickle("verbSections.txt")
-        self.otherList = loadPickle("otherSections.txt") 
-        self.sections = loadPickle("sections.txt")
+        self.nounList = loadPickle("./Sections/nounSections.txt")
+        self.adjectiveList = loadPickle("./Sections/adjSections.txt")
+        self.adverbList = loadPickle("./Sections/adverbSections.txt")
+        self.verbList = loadPickle("./Sections/verbSections.txt")
+        self.otherList = loadPickle("./Sections/otherSections.txt") 
+        self.sections = loadPickle("./Sections/sections.txt")
 
         #Left Hand Tree
         self.treePanel = wx.Panel(self, size=wx.Size(250,1800), pos= wx.Point(0,0))
@@ -71,7 +71,8 @@ class TestFrame(wx.Frame):
         self.grid.SetDefaultCellOverflow(False)
         self.grid.SetDefaultCellFont(wx.Font(11,wx.FONTFAMILY_DEFAULT,wx.FONTSTYLE_NORMAL,wx.FONTWEIGHT_MEDIUM))
         self.grid.EnableGridLines(True)
-        dic = loadPickle("words.txt")
+        dic = loadPickle("./Sections/words.txt")
+        print(dic)
         #sortedDic = sortDic(dic)
         displayWords(self.grid, dic)
         self.grid.Bind(wx.grid.EVT_GRID_CELL_CHANGED, self.OnChangeCell)
@@ -102,7 +103,7 @@ class TestFrame(wx.Frame):
         #Hide/Show buttons
         showHideEng = ShowButton(self.langPanel, lbl=f"Hide English", sz=wx.Size(75, 50), ps=wx.Point(25 ,200))
         showHideEng.Bind(wx.EVT_BUTTON, self.showHide)
-        data = loadPickle("words.txt")
+        data = loadPickle("./Sections/words.txt")
         languages = list(data[list(data)[0]])
         for count, lang in enumerate(languages):
             
@@ -138,7 +139,7 @@ class TestFrame(wx.Frame):
         dlg.Destroy()
         language = language[0].upper() + language[1:]
         print(language)
-        data = loadPickle(f"{self.currentGrid}.txt")
+        data = loadPickle(f"./Sections/{self.currentGrid}.txt")
         if language.lower() == "mandarin":
             try:
                 for k in data:
@@ -159,7 +160,7 @@ class TestFrame(wx.Frame):
         except:
             print("Can't find that language with Googie Trans\n Sorry \n Don't give up!!!")
         displayWords(self.grid, data)
-        dumpPickle(f"{self.currentGrid}.txt" , data)
+        dumpPickle(f"./Sections/{self.currentGrid}.txt" , data)
         
 
 
@@ -168,7 +169,7 @@ class TestFrame(wx.Frame):
         label = obj.GetLabel()
         action = label[0:4]
         languageToHide = label[5:]
-        languages = loadPickle("words.txt")
+        languages = loadPickle("./Sections/words.txt")
         languages = list(languages[list(languages.keys())[0]])
         
         if languageToHide == "English" and action == "Hide":
@@ -190,14 +191,14 @@ class TestFrame(wx.Frame):
 
     
     def shuffleWords(self,e):
-        dic = loadPickle(f"{self.currentGrid}.txt")
+        dic = loadPickle(f"./Sections/{self.currentGrid}.txt")
         
         shuffled = shuffleDic(dic)
         displayWords(self.grid, shuffled)
        
         
     def sortWords(self,e):
-        dic = loadPickle(f"{self.currentGrid}.txt")
+        dic = loadPickle(f"./Sections/{self.currentGrid}.txt")
         alpha = sortDic(dic)
         displayWords(self.grid, alpha)    
 
@@ -206,16 +207,16 @@ class TestFrame(wx.Frame):
     def addLang(self,e):
         lang = self.addLangBox.GetLineText(0)
         self.addLangBox.SetLabelText("")
-        numLangs = loadPickle("numLangs.txt")
+        numLangs = loadPickle("./Sections/numLangs.txt")
         try:
             addLanguage(lang)
             numLangs = numLangs + 1
-            dumpPickle("numLangs.txt",numLangs)
+            dumpPickle("./Sections/numLangs.txt",numLangs)
         except:
             print("Didnt' succesfully add language")
 
         self.grid.ClearGrid()
-        newWords = loadPickle(f"{self.currentGrid}.txt")
+        newWords = loadPickle(f"./Sections/{self.currentGrid}.txt")
         displayWords(self.grid, newWords)
         
 
@@ -224,7 +225,7 @@ class TestFrame(wx.Frame):
         language = self.removeLangBox.GetLineText(0)
         self.removeLangBox.SetLabelText("")
         #language = language.lower()
-        words = loadPickle("words.txt")
+        words = loadPickle("./Sections/words.txt")
         
         if (language not in words[list(words.keys())[0]] and language != 'English'):
             box2 = wx.MessageDialog(None,f"THat language is not in the data, Please enter language exactly as seen on the table","Remove Language",wx.OK)
@@ -245,16 +246,16 @@ class TestFrame(wx.Frame):
 
     #DOn't allow english to be removed
     def removeLang(self, lang):
-        numLangs = loadPickle("numLangs.txt")
+        numLangs = loadPickle("./Sections/numLangs.txt")
         try:
             delLanguage(lang)
             numLangs = numLangs - 1
-            dumpPickle("numLangs.txt", numLangs)
+            dumpPickle("./Sections/numLangs.txt", numLangs)
         except:
             print("Something went wrong, remove language didn't work")
         
         self.grid.ClearGrid()
-        data = loadPickle(f"{self.currentGrid}.txt")
+        data = loadPickle(f"./Sections/{self.currentGrid}.txt")
         for i in range(numLangs):
             if self.grid.GetColLabelValue(i) == lang:
                 self.grid.DeleteCols(i) 
@@ -267,19 +268,19 @@ class TestFrame(wx.Frame):
     def OnChangeCell(self, e):
         #Change it so it only opens one fd and then dumps to the fd at the bottom
         if (self.currentGrid == "words"):
-            dic = loadPickle("words.txt")
+            dic = loadPickle("./Sections/words.txt")
         elif (self.currentGrid == "Adverbs"):
-            dic = loadPickle("Adverbs.txt")
+            dic = loadPickle("./Sections/Adverbs.txt")
         elif (self.currentGrid == "Verbs"):
-            dic = loadPickle("Verbs.txt")
+            dic = loadPickle("./Sections/Verbs.txt")
         elif (self.currentGrid == "Adjectives"):
-            dic = loadPickle("Adjectives.txt")
+            dic = loadPickle("./Sections/Adjectives.txt")
         elif (self.currentGrid == "Prepositions"):
-            dic = loadPickle("Prepositions.txt")
+            dic = loadPickle("./Sections/Prepositions.txt")
         elif (self.currentGrid == "Other"):
-            dic = loadPickle("Other.txt")
+            dic = loadPickle("./Sections/Other.txt")
         elif (self.currentGrid in self.sections):
-            dic = loadPickle(f"{self.sections[self.currentGrid]}")
+            dic = loadPickle(f"{self.sections[self.currentGrid]}")   #Make all of these paths work
         elif (self.currentGrid in self.nounList):
             dic = loadPickle(f"{self.nounList[self.currentGrid]}")
         elif (self.currentGrid in self.adjectiveList):
@@ -337,28 +338,28 @@ class TestFrame(wx.Frame):
             
 
         if (self.currentGrid == "words"):
-            dumpPickle("words.txt",dic)
-            new = loadPickle("words.txt")           
+            dumpPickle("./Sections/words.txt",dic)
+            new = loadPickle("./Sections/words.txt")           
             displayWords(self.grid, new)
         elif (self.currentGrid == "Adverbs"):
-            dumpPickle("Adverbs.txt",dic)
-            new = loadPickle("Adverbs.txt")           
+            dumpPickle("./Sections/Adverbs.txt",dic)
+            new = loadPickle("./Sections/Adverbs.txt")           
             displayWords(self.grid, new)
         elif (self.currentGrid == "Adjectives"):
-            dumpPickle("Adjectives.txt",dic)
-            new = loadPickle(f"Adjectives.txt")     
+            dumpPickle("./Sections/Adjectives.txt",dic)
+            new = loadPickle(f"./Sections/Adjectives.txt")     
             displayWords(self.grid, new)
         elif (self.currentGrid == "Verbs"):
-            dumpPickle("Verbs.txt",dic)
-            new = loadPickle("Verbs.txt")           
+            dumpPickle("./Sections/Verbs.txt",dic)
+            new = loadPickle("./Sections/Verbs.txt")           
             displayWords(self.grid, new)
         elif (self.currentGrid == "Prepositions"):
-            dumpPickle("Prepositions.txt",dic)
-            new = loadPickle("Prepositions.txt")           
+            dumpPickle("./Sections/Prepositions.txt",dic)
+            new = loadPickle("./Sections/Prepositions.txt")           
             displayWords(self.grid, new)
         elif (self.currentGrid == "Other"):
-            dumpPickle("Other.txt",dic)
-            new = loadPickle("Other.txt")           
+            dumpPickle("./Sections/Other.txt",dic)
+            new = loadPickle("./Sections/Other.txt")           
             displayWords(self.grid, new)
         elif (self.currentGrid in self.nounList):
             dumpPickle(f"{self.nounList[self.currentGrid]}",dic)
@@ -396,25 +397,25 @@ class TestFrame(wx.Frame):
 
 
         if (section == "Nouns"):
-            self.nounList[f"{label}"] = f"{label}.txt" #Pickle this and dump to a list txt file
-            dumpPickle("nounSections.txt",self.nounList)   #Add section to list
-            dumpPickle(f"{label}.txt",dic)                 #Add new data file for section
+            self.nounList[f"{label}"] = f"./Sections/{label}.txt" #Pickle this and dump to a list txt file
+            dumpPickle("./Sections/nounSections.txt",self.nounList)   #Add section to list
+            dumpPickle(f"./Sections/{label}.txt",dic)                 #Add new data file for section
         elif (section == "Adjectives"):
-            self.adjectiveList[f"{label}"] = f"{label}.txt" 
-            dumpPickle("adjSections.txt",self.adjectiveList)
-            dumpPickle(f"{label}.txt",dic)
+            self.adjectiveList[f"{label}"] = f"./Sections/{label}.txt" 
+            dumpPickle("./Sections/adjSections.txt",self.adjectiveList)
+            dumpPickle(f"./Sections/{label}.txt",dic)
         elif (section == "Verbs"):
-            self.verbList[f"{label}"] = f"{label}.txt" 
-            dumpPickle("verbSections.txt",self.verbList)
-            dumpPickle(f"{label}.txt",dic)
+            self.verbList[f"{label}"] = f"./Sections/{label}.txt" 
+            dumpPickle("./Sections/verbSections.txt",self.verbList)
+            dumpPickle(f"./Sections/{label}.txt",dic)
         elif (section == "Adverbs"):
-            self.adverbList[f"{label}"] = f"{label}.txt" 
-            dumpPickle("adverbSections.txt",self.adverbList)
-            dumpPickle(f"{label}.txt",dic)
+            self.adverbList[f"{label}"] = f"./Sections/{label}.txt" 
+            dumpPickle("./Sections/adverbSections.txt",self.adverbList)
+            dumpPickle(f"./Sections/{label}.txt",dic)
         else:
-            self.otherList[f"{label}"] = f"{label}.txt" 
-            dumpPickle("otherSections.txt",self.otherList)
-            dumpPickle(f"{label}.txt",dic)
+            self.otherList[f"{label}"] = f"./Sections/{label}.txt" 
+            dumpPickle("./Sections/otherSections.txt",self.otherList)
+            dumpPickle(f"./Sections/{label}.txt",dic)
             
     def addNoun(self,e):
         newSection = self.enterNoun.GetLineText(0)
@@ -455,12 +456,12 @@ class TestFrame(wx.Frame):
             self.grid.ClearGrid()
             self.currentGrid = item
             if (item=="words"):
-                dic = loadPickle("words.txt")
+                dic = loadPickle("./Sections/words.txt")
                 self.grid.ClearGrid()
                 sorted = sortDic(dic)
                 displayWords(self.grid, sorted)
             else:
-                dic = loadPickle(f"{item}.txt")  
+                dic = loadPickle(f"./Sections/{item}.txt")  
                 sorted = sortDic(dic)
                 if (len(dic) > 0):
                     displayWords(self.grid, sorted)
@@ -480,50 +481,50 @@ class TestFrame(wx.Frame):
             self.tree.Delete(treeItem)
             
             if (self.tree.GetItemText(deletedParent) == "Nouns"):
-                with open("nounSections.txt","rb") as fd:
+                with open("./Sections/nounSections.txt","rb") as fd:
                     dic = pickle.load(fd)
                     if (dic[title]):
                         dic.pop(title)
-                with open("nounSections.txt","wb") as fd:
+                with open("./Sections/nounSections.txt","wb") as fd:
                     pickle.dump(dic,fd)
             elif (self.tree.GetItemText(deletedParent) == "Adjectives"):
-                with open("adjSections.txt","rb") as fd:
+                with open("./Sections/adjSections.txt","rb") as fd:
                     dic = pickle.load(fd)
                     if (dic[title]):
                         dic.pop(title)
-                with open("adjSections.txt","wb") as fd:
+                with open("./Sections/adjSections.txt","wb") as fd:
                     pickle.dump(dic,fd)
             elif (self.tree.GetItemText(deletedParent) == "Adverbs"):
-                with open("adverbSections.txt","rb") as fd:
+                with open("./Sections/adverbSections.txt","rb") as fd:
                     dic = pickle.load(fd)
                     if (dic[title]):
                         dic.pop(title)
-                with open("adverbSections.txt","wb") as fd:
+                with open("./Sections/adverbSections.txt","wb") as fd:
                     pickle.dump(dic,fd)
             elif (self.tree.GetItemText(deletedParent) == "Prepositions"):
-                with open("prepSections.txt","rb") as fd:
+                with open("./Sections/prepSections.txt","rb") as fd:
                     dic = pickle.load(fd)
                     if (dic[title]):
                         dic.pop(title)
-                with open("prepSections.txt","wb") as fd:
+                with open("./Sections/prepSections.txt","wb") as fd:
                     pickle.dump(dic,fd)
             elif (self.tree.GetItemText(deletedParent) == "Verbs"):
-                with open("verbSections.txt","rb") as fd:
+                with open("./Sections/verbSections.txt","rb") as fd:
                     dic = pickle.load(fd)
                     if (dic[title]):
                         dic.pop(title)
-                with open("verbSections.txt","wb") as fd:
+                with open("./Sections/verbSections.txt","wb") as fd:
                     pickle.dump(dic,fd)
             elif (self.tree.GetItemText(deletedParent) == "Other"):
-                with open("otherSections.txt","rb") as fd:
+                with open("./Sections/otherSections.txt","rb") as fd:
                     dic = pickle.load(fd)
                     if (dic[title]):
                         dic.pop(title)
-                with open("otherSections.txt","wb") as fd:
+                with open("./Sections/otherSections.txt","wb") as fd:
                     pickle.dump(dic,fd)
             
-            if (os.path.exists(f"{title}.txt")):
-                os.remove(f"{title}.txt")
+            if (os.path.exists(f"./Sections/{title}.txt")):
+                os.remove(f"./Sections/{title}.txt")
         elif (response == NO):
             print("goodbye govna.")
         else:
