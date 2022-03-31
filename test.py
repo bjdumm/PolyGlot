@@ -46,17 +46,9 @@ print(num)
 
 words = loadPickle("./Sections/words.txt")
 for k in words:
-    words[k]["Spanish"] = ""
-    words[k]["Italian"] = ""
-    words[k]["French"] = ""
-    words[k]["Greek"] = ""
-    words[k]["Latin"] = ""
-    words[k]["Russian"] = ""
-    words[k]["Hebrew"] = ""
-    words[k]["Japanese"] = ""
-dumpPickle("./Sections/words.txt", words)
+    print(words[k]["Spanish"] , "\n")
 
-
+print(words)
 
 
 

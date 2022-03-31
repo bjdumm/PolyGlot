@@ -321,6 +321,7 @@ class TestFrame(wx.Frame):
         newWord = self.grid.GetCellValue(row , col)
         numberOfLangs = len(dic[list(dic)[0]])
         translator = gt.Translator()
+        
         if (lang == 'English'):    #If english was changed -> THen....
             if (newWord == ""):
                 dic.pop(oldWord)
@@ -343,27 +344,47 @@ class TestFrame(wx.Frame):
             
             engWord = self.grid.GetCellValue(row, 0)
             if (engWord !=  ""):
-                dic[engWord][lang] = newWord
+                dic[engWord][lang] = newWord   #This should always happen
             
                 for i in range(1,numberOfLangs+1):
                     fWord = self.grid.GetCellValue(row, i)
                     flang = self.grid.GetColLabelValue(i)
                     if fWord == "" and flang != lang and self.autoFillOn:  #Only if there is not foreign word currently
-                        dic[engWord][flang] = translator.translate(engWord, dest=flang).text
+                        try:
+                            dic[engWord][flang] = translator.translate(engWord, dest=flang).text
+                        except:
+                            print("Google Translate Error!!!\n\n\n")
                     else:
                         continue
             
             else:  #English word is emtpy and foreign lanugae cell has been changed
+                if self.autoFillOn:
+                    
+                    try:
+                        english = translator.translate(newWord, dest="en", src=lang).text
+                        dic[english] = {}
                 
-                print("I'm in the else : \n\n\n\n" , newWord)
-                english = translator.translate(newWord, dest="en", src=lang).text
-                print("Here's the english: " , english)
-                dic[english] = {}
-                
-                for i in range(1,numberOfLangs+1):
-                    flang = self.grid.GetColLabelValue(i)
-                    dic[english][flang] = translator.translate(english, dest=flang).text
-            
+                        for i in range(1,numberOfLangs+1):
+                            flang = self.grid.GetColLabelValue(i)
+                            dic[english][flang] = translator.translate(english, dest=flang).text
+                    except:
+                        print("Google translate error!!!")                        
+                        
+                else:
+                    print("I'm in here!!\n\n\n")
+                    try:
+                        engKey = translator.translate(newWord, dest="en", src=lang).text
+                        dic[engKey] = {}
+                        for i in range(1, numberOfLangs + 1):
+                            flang = self.grid.GetColLabelValue(i)
+                            if flang == lang:
+                                dic[engKey][lang] = newWord
+                                self.grid.SetCellValue(row, 0, engKey) 
+                            else:
+                                dic[engKey][flang] = ""
+                    except:
+                        print("Adding new english key for auto fill disabled when English is empty failed. Try again\n\n\n")
+                    
 
         if (self.currentGrid == "words"):
             dumpPickle("./Sections/words.txt",dic)
