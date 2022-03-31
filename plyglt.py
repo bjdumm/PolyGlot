@@ -107,7 +107,7 @@ class TestFrame(wx.Frame):
         languages = list(data[list(data)[0]])
         for count, lang in enumerate(languages):
             
-            showHideBtn = ShowButton(self.langPanel, lbl=f"Hide {lang}", sz=wx.Size(75, 50), ps=wx.Point(25 + (count % 6 + 1) * 90 , (200 if count < 6 else 270)))
+            showHideBtn = ShowButton(self.langPanel, lbl=f"Hide {lang}", sz=wx.Size(75, 50), ps=wx.Point(25 + (count % 6 + 1) * 90 , (200 if count < 6 else 270)))  #Change this to include more rows
             showHideBtn.Bind(wx.EVT_BUTTON, self.showHide)
 
         shuffleBtn = wx.Button(self.langPanel, label="Shuffle\nWords", size=wx.Size(120,60),pos=wx.Point(400,40))
@@ -157,7 +157,7 @@ class TestFrame(wx.Frame):
             language = dlg.GetValue().lower()
         dlg.Destroy()
         language = language[0].upper() + language[1:]
-        print(language)
+        
         data = loadPickle(f"./Sections/{self.currentGrid}.txt")
         if language.lower() == "mandarin":
             try:
@@ -167,7 +167,7 @@ class TestFrame(wx.Frame):
                     else:
                         continue
             except:
-                print("Sorry bud, didn't work for some reason. Don't kill yourself.")
+                print("Sorry didn't work.")
 
         try:
             for k in data:
@@ -177,7 +177,7 @@ class TestFrame(wx.Frame):
                 else:
                     continue
         except:
-            print("Can't find that language with Googie Trans\n Sorry \n Don't give up!!!")
+            print("Can't find that language with Googie Trans\n")
         displayWords(self.grid, data)
         dumpPickle(f"./Sections/{self.currentGrid}.txt" , data)
         
@@ -337,6 +337,8 @@ class TestFrame(wx.Frame):
                                 print("Language not recognized by Google translate")
                         else:
                             dic[newWord][fCol] = foreignWord
+        
+        
         else: #Some other language was changed
             
             engWord = self.grid.GetCellValue(row, 0)
@@ -352,7 +354,10 @@ class TestFrame(wx.Frame):
                         continue
             
             else:  #English word is emtpy and foreign lanugae cell has been changed
-                english = translator.translate(newWord, dest="en").text
+                
+                print("I'm in the else : \n\n\n\n" , newWord)
+                english = translator.translate(newWord, dest="en", src=lang).text
+                print("Here's the english: " , english)
                 dic[english] = {}
                 
                 for i in range(1,numberOfLangs+1):
