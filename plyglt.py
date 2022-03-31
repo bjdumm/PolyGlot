@@ -21,6 +21,7 @@ class TestFrame(wx.Frame):
                           size=(640,480)) 
         
         #Global Variables for Entire Frame
+        self.autoFillOn = True
         self.numLangs = loadPickle("./Sections/numLangs.txt")
         self.rootIdx = 2
         self.vocabIdx = 2
@@ -118,6 +119,9 @@ class TestFrame(wx.Frame):
         fillBtn = wx.Button(self.langPanel, label="Auto-Fill Empty Words", size=wx.Size(150,60), pos=wx.Point(450,425))
         fillBtn.Bind(wx.EVT_BUTTON, self.autoFill)
 
+        autoToggleBtn = wx.Button(self.langPanel, label="Turn Auto Fill Off", size=wx.Size(150,60), pos=wx.Point(300,325))
+        autoToggleBtn.Bind(wx.EVT_BUTTON, self.toggleAuto)
+
         delBtn = wx.Button(self.langPanel,label="Delete Selected Section",size=wx.Size(150,50),pos=wx.Point(250,425))
         delBtn.Bind(wx.EVT_BUTTON,self.deleteSection)
          
@@ -129,6 +133,22 @@ class TestFrame(wx.Frame):
         self.removeLangBox.SetInsertionPoint(0)
         remLangBtn = wx.Button(self.langPanel,label="Remove Language: ", size=wx.Size(135,23),pos=wx.Point(325,150))
         remLangBtn.Bind(wx.EVT_BUTTON, self.removeOnClick)
+
+
+    def toggleAuto(self,e):
+        obj = e.GetEventObject()
+        option = obj.GetLabel()
+        option = option[-3:]
+        print(option)
+        if option == "Off":
+            self.autoFillOn = False
+            obj.SetLabel("Turn Auto Fill On")
+        elif option == " On":
+            self.autoFillOn = True
+            obj.SetLabel("Turn Auto Fill Off")
+        
+        
+
 
     def autoFill(self, e):
         dlg = wx.TextEntryDialog(frame, 'Enter the language as shown in the column header','Auto Fill Words')
@@ -265,9 +285,12 @@ class TestFrame(wx.Frame):
 
     #Action handler to update the grid
     def OnChangeCell(self, e):
+        
+        isAutoFill = self.autoFillOn
+
         #Change it so it only opens one fd and then dumps to the fd at the bottom
         if (self.currentGrid == "words"):
-            dic = loadPickle("./Sections/./Sections/words.txt")
+            dic = loadPickle("./Sections/words.txt")
         elif (self.currentGrid == "Adverbs"):
             dic = loadPickle("./Sections/Adverbs.txt")
         elif (self.currentGrid == "Verbs"):
@@ -307,7 +330,7 @@ class TestFrame(wx.Frame):
                     for i in range(1,numberOfLangs+1):
                         fCol = self.grid.GetColLabelValue(i)
                         foreignWord = self.grid.GetCellValue(row, i)
-                        if foreignWord == "":
+                        if foreignWord == "" and self.autoFillOn:
                             try:
                                 dic[newWord][fCol] = translator.translate(newWord, dest=fCol).text
                             except:
@@ -323,7 +346,7 @@ class TestFrame(wx.Frame):
                 for i in range(1,numberOfLangs+1):
                     fWord = self.grid.GetCellValue(row, i)
                     flang = self.grid.GetColLabelValue(i)
-                    if fWord == "" and flang != lang:  #Only if there is not foreign word currently
+                    if fWord == "" and flang != lang and self.autoFillOn:  #Only if there is not foreign word currently
                         dic[engWord][flang] = translator.translate(engWord, dest=flang).text
                     else:
                         continue
@@ -331,6 +354,7 @@ class TestFrame(wx.Frame):
             else:  #English word is emtpy and foreign lanugae cell has been changed
                 english = translator.translate(newWord, dest="en").text
                 dic[english] = {}
+                
                 for i in range(1,numberOfLangs+1):
                     flang = self.grid.GetColLabelValue(i)
                     dic[english][flang] = translator.translate(english, dest=flang).text

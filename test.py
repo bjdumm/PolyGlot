@@ -25,10 +25,7 @@ nSec = loadPickle("nounSections.txt")
 #    dic = loadPickle(f"{sections[sec]}")
 #    print(dic)
 
-city = loadPickle("words.txt")
-for k in city:
-    city[k]["Russian"] = ""
-dumpPickle("words.txt", city)
+
 #for eng in nouns:
 #   nouns[eng]['Latin'] = ""
 #dumpPickle("Nouns.txt", nouns)
@@ -44,7 +41,20 @@ dumpPickle("words.txt", city)
 #    print(dic)
 
 
+num = loadPickle("./Sections/numLangs.txt")
+print(num)
 
+words = loadPickle("./Sections/words.txt")
+for k in words:
+    words[k]["Spanish"] = ""
+    words[k]["Italian"] = ""
+    words[k]["French"] = ""
+    words[k]["Greek"] = ""
+    words[k]["Latin"] = ""
+    words[k]["Russian"] = ""
+    words[k]["Hebrew"] = ""
+    words[k]["Japanese"] = ""
+dumpPickle("./Sections/words.txt", words)
 
 
 
