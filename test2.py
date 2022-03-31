@@ -65,7 +65,13 @@ import wx
 
 #Delete a language from words
 
-verbs = loadPickle("Verbs.txt")
+verbs1 = loadPickle("./Sections/sections.txt")
+verbs2= loadPickle("./Sections/nounSections.txt")
+verbs3 = loadPickle("./Sections/verbSections.txt")
+
+print(verbs1)
+print(verbs2)
+print(verbs3)
 #for k in list(words.keys()):
 #    words[k].pop("Turkish",None)
 #dumpPickle("words.txt",words)

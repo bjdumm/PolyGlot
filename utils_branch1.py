@@ -1,7 +1,6 @@
 from json import load
 import pickle
 import os
-import random 
 import wx
 import wx.grid
 
@@ -51,21 +50,23 @@ def dumpPickle(file,data):
     return True
 
 
+def getLanguageName(lang):
+    return "Garbage"
 
 
 
 def delLanguage(lang):
-    nounSections = loadPickle("./Sections/nounSections.txt")
-    otherSections = loadPickle("./Sections/otherSections.txt")
-    adverbSections = loadPickle("./Sections/adverbSections.txt")
-    adjSections = loadPickle("./Sections/adjSections.txt")
-    verbSections = loadPickle("./Sections/verbSections.txt")
-    sections = loadPickle("./Sections/sections.txt")
+    nounSections = loadPickle("nounSections.txt")
+    otherSections = loadPickle("otherSections.txt")
+    adverbSections = loadPickle("adverbSections.txt")
+    adjSections = loadPickle("adjSections.txt")
+    verbSections = loadPickle("verbSections.txt")
+    sections = loadPickle("sections.txt")
 
-    data = loadPickle("./Sections/words.txt")
+    data = loadPickle("words.txt")
     for k in list(data.keys()):
         data[k].pop(lang,None)
-    dumpPickle("./Sections/words.txt",data)
+    dumpPickle("words.txt",data)
 
     for sec in sections:
         dic = loadPickle(f"{sections[sec]}")
@@ -105,17 +106,17 @@ def delLanguage(lang):
 
 
 def addLanguage(newLang):
-    nounSections = loadPickle("./Sections/nounSections.txt")
-    otherSections = loadPickle("./Sections/otherSections.txt")
-    adverbSections = loadPickle("./Sections/adverbSections.txt")
-    adjSections = loadPickle("./Sections/adjSections.txt")
-    verbSections = loadPickle("./Sections/verbSections.txt")
-    sections = loadPickle("./Sections/sections.txt")
+    nounSections = loadPickle("nounSections.txt")
+    otherSections = loadPickle("otherSections.txt")
+    adverbSections = loadPickle("adverbSections.txt")
+    adjSections = loadPickle("adjSections.txt")
+    verbSections = loadPickle("verbSections.txt")
+    sections = loadPickle("sections.txt")
 
-    words = loadPickle("./Sections/words.txt")
+    words = loadPickle("words.txt")
     for k in words:
         words[k][newLang] = ""
-    dumpPickle("./Sections/words.txt",words)
+    dumpPickle("words.txt",words)
 
     #Load section -> Add lang : "" -> dump to txt file
     for sec in sections:
@@ -168,11 +169,7 @@ def sortDic(dic):
 
 
 
-def shuffleDic(dic):
-    keys = list(dic.keys())
-    random.shuffle(keys)
-    shuffledDic = {}
-    for k in keys:
-        shuffledDic[k] = dic[k]
-    return shuffledDic
-
+def deleteSection():
+    pass
+def addFile():
+    pass
