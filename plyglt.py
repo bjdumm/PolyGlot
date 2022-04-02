@@ -20,6 +20,24 @@ class TestFrame(wx.Frame):
         wx.Frame.__init__(self, None, title="PolyGlot",
                           size=(640,480)) 
         
+
+
+        #Text
+        self.welcomeText = '''Welcome to Polyglot! The idea behind this application is to be able to learn and study vocabulary across multiple languages at once. 
+        Several languages are provided already with translations filled in by Google translate. You may need to check these translations to ensure accuracy as they may not have been
+        translated in the appropriate context.  Simply edit the word in any cell to change and automatically save the new word. Enabling the auto-fill option will fill in all currently
+        empty words in the row that has been changed using Google translate. Disable this option to manually enter each translation. Keep in mind that the automatic translations may not always
+        be accurate. To add a language, type the language into the text box next to
+        the "Add Language" option and click the button. Be sure to spell the language correctly so that Google translate can recognize it for the auto-fill option. 
+        '''
+        adjLabelText = "Adjectives"
+        nounLabelText = "Nouns"
+        verbLabelText = "Verbs"
+        wordLabelText = "words"
+        adverbLabelText = "Adverbs"
+        prepLabelText = "Prepositions"
+        otherLabelText = "Other"
+
         #Global Variables for Entire Frame
         self.autoFillOn = True
         self.numLangs = loadPickle("./Sections/numLangs.txt")
@@ -38,27 +56,27 @@ class TestFrame(wx.Frame):
         self.tree = wx.TreeCtrl(self.treePanel,size=wx.Size(150,3000))
         root = self.tree.AddRoot("Polyglot")  
 
-        self.adjectives = self.tree.InsertItem(root,0,"Adjectives")
+        self.adjectives = self.tree.InsertItem(root,0,adjLabelText)
         for idx, k in enumerate(self.adjectiveList):
             self.tree.InsertItem(self.adjectives,idx,k)
 
-        self.nouns = self.tree.InsertItem(root,1,"Nouns")
+        self.nouns = self.tree.InsertItem(root,1,nounLabelText)
         for idx, k in enumerate(self.nounList):
             self.tree.InsertItem(self.nouns,idx,k)
             
-        self.verbs = self.tree.InsertItem(root,2,"Verbs")  #Verbs Section
+        self.verbs = self.tree.InsertItem(root,2,verbLabelText)  #Verbs Section
         for idx, k in enumerate(self.verbList):
             self.tree.InsertItem(self.verbs,idx,k)
         
-        self.vocab = self.tree.InsertItem(root,3,"words")   
+        self.vocab = self.tree.InsertItem(root,3,wordLabelText)   
         
-        self.adverbs = self.tree.InsertItem(root,4,"Adverbs")
+        self.adverbs = self.tree.InsertItem(root,4,adverbLabelText)
         for idx, k in enumerate(self.adverbList):
             self.tree.InsertItem(self.adverbs,idx,k)
 
-        self.preps = self.tree.InsertItem(root,5,"Prepositions")
+        self.preps = self.tree.InsertItem(root,5,prepLabelText)
        
-        self.other = self.tree.InsertItem(root,6,"Other")
+        self.other = self.tree.InsertItem(root,6,otherLabelText)
         for idx, k in enumerate(self.otherList):
             self.tree.InsertItem(self.other,idx,k)
 
@@ -67,7 +85,7 @@ class TestFrame(wx.Frame):
         #Center Grid
         self.gridPanel = wx.Panel(self, size=wx.Size(1025,1000), pos=wx.Point(150,0))
         self.grid = wx.grid.Grid(self.gridPanel,size=wx.Size(1025,1000))
-        self.grid.CreateGrid(1000 ,self.numLangs + 3)
+        self.grid.CreateGrid(5000 ,self.numLangs + 3)
         self.grid.SetDefaultCellBackgroundColour(wx.Colour(255,255,255))
         self.grid.SetDefaultCellOverflow(False)
         self.grid.SetDefaultCellFont(wx.Font(11,wx.FONTFAMILY_DEFAULT,wx.FONTSTYLE_NORMAL,wx.FONTWEIGHT_MEDIUM))

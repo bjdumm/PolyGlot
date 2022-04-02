@@ -52,7 +52,15 @@ def dumpPickle(file,data):
 
 
 
-
+def changeKey(dic, language):
+    engKeys = dic.keys()
+    newDic = {}
+    for k in engKeys:
+        fKey = dic[k][language]
+        newDic[fKey] = {}
+        for k2 in dic[k]:
+            if k2 != language:
+                newDic[fKey][k2] = dic[k][k2]   #Make k2 the foreign version of the language word, may need lookup dictionary to make googletrans work
 
 def delLanguage(lang):
     nounSections = loadPickle("./Sections/nounSections.txt")
