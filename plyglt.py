@@ -403,7 +403,7 @@ class TestFrame(wx.Frame):
                     except:
                         print("Adding new english key for auto fill disabled when English is empty failed. Try again\n\n\n")
                     
-
+        #Should you load it at all?????????????!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         if (self.currentGrid == "words"):
             dumpPickle("./Sections/words.txt",dic)
             new = loadPickle("./Sections/words.txt")           
