@@ -1,6 +1,7 @@
 import googletrans
 import os
 from utils import loadPickle,dumpPickle
+import time
 
 #Manually set numLangs to the second value
 #dumpPickle("numLangs.txt",5)
@@ -40,15 +41,12 @@ nSec = loadPickle("nounSections.txt")
 #    print(f"Thsi is the data for {sections[sec]}\n\n")
 #    print(dic)
 
-
-num = loadPickle("./Sections/numLangs.txt")
-print(num)
-
-words = loadPickle("./Sections/words.txt")
-for k in words:
-    print(words[k]["Spanish"] , "\n")
-
-print(words)
+t = time.time() 
+print(t)
+num = loadPickle("./Sections/words.txt")
+t2 = time.time() 
+print(t2)
+print(t2 - t)
 
 
 
