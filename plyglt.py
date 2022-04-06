@@ -85,7 +85,7 @@ class TestFrame(wx.Frame):
         #Center Grid
         self.gridPanel = wx.Panel(self, size=wx.Size(1025,1000), pos=wx.Point(150,0))
         self.grid = wx.grid.Grid(self.gridPanel,size=wx.Size(1025,1000))
-        self.grid.CreateGrid(5000 ,self.numLangs + 3)
+        self.grid.CreateGrid(6000 ,self.numLangs + 3)
         self.grid.SetDefaultCellBackgroundColour(wx.Colour(255,255,255))
         self.grid.SetDefaultCellOverflow(False)
         self.grid.SetDefaultCellFont(wx.Font(11,wx.FONTFAMILY_DEFAULT,wx.FONTSTYLE_NORMAL,wx.FONTWEIGHT_MEDIUM))
