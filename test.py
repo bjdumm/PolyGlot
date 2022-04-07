@@ -5,19 +5,19 @@ import time
 
 #Manually set numLangs to the second value
 #dumpPickle("numLangs.txt",5)
-num = loadPickle("numLangs.txt")
+#num = loadPickle("numLangs.txt")
 #print("The current number of languages is set at : ", num)
 
 #Check current Sections:
-secs = loadPickle("sections.txt")
+#secs = loadPickle("sections.txt")
 #print("The current sections are " , secs)
 
 #Check current Adverb Sections
-adv = loadPickle("adverbSections.txt")
+#adv = loadPickle("adverbSections.txt")
 #print("The current adverb sections are: ", adv)
 
 #Check current Noun Sections
-nSec = loadPickle("nounSections.txt")
+#nSec = loadPickle("nounSections.txt")
 #print("The current noun sections are: ", nSec)
 
 
@@ -41,12 +41,7 @@ nSec = loadPickle("nounSections.txt")
 #    print(f"Thsi is the data for {sections[sec]}\n\n")
 #    print(dic)
 
-t = time.time() 
-print(t)
-num = loadPickle("./Sections/words.txt")
-t2 = time.time() 
-print(t2)
-print(t2 - t)
 
+isFirstTime = loadPickle("./Sections/FirstTime.txt")
 
 

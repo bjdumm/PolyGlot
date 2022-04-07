@@ -1,4 +1,5 @@
 from ast import dump
+from re import S
 from wx.core import DF_BITMAP, GREEN, YES_NO
 import wx
 import wx.grid
@@ -7,6 +8,17 @@ import pickle
 import googletrans as gt
 #from utils import loadPickle, dumpPickle, displayWords, numLangs, getLanguageAbbrev, getLanguageName
 from utils import *
+
+
+#Text
+welcomeText = '''Welcome to Polyglot! The idea behind this application is to be able to learn and study vocabulary across multiple languages at once. 
+Several languages are provided already with translations filled in by Google translate. You may need to check these translations to ensure accuracy as they may not have been
+translated in the appropriate context.  Simply edit the word in any cell to change and automatically save the new word. Enabling the auto-fill option will fill in all currently
+empty words in the row that has been changed using Google translate. Disable this option to manually enter each translation. Keep in mind that the automatic translations may not always
+be accurate. To add a language, type the language into the text box next to
+the "Add Language" option and click the button. Be sure to spell the language correctly so that Google translate can recognize it for the auto-fill option. 
+'''
+
 
 class ShowButton(wx.Button):
     def __init__(self, parent, lbl, sz, ps):
@@ -22,14 +34,8 @@ class TestFrame(wx.Frame):
         
 
 
-        #Text
-        self.welcomeText = '''Welcome to Polyglot! The idea behind this application is to be able to learn and study vocabulary across multiple languages at once. 
-        Several languages are provided already with translations filled in by Google translate. You may need to check these translations to ensure accuracy as they may not have been
-        translated in the appropriate context.  Simply edit the word in any cell to change and automatically save the new word. Enabling the auto-fill option will fill in all currently
-        empty words in the row that has been changed using Google translate. Disable this option to manually enter each translation. Keep in mind that the automatic translations may not always
-        be accurate. To add a language, type the language into the text box next to
-        the "Add Language" option and click the button. Be sure to spell the language correctly so that Google translate can recognize it for the auto-fill option. 
-        '''
+        
+        isFirstTime = loadPickle("./Sections/FirstTime.txt")
         adjLabelText = "Adjectives"
         nounLabelText = "Nouns"
         verbLabelText = "Verbs"
@@ -51,9 +57,19 @@ class TestFrame(wx.Frame):
         self.otherList = loadPickle("./Sections/otherSections.txt") 
         self.sections = loadPickle("./Sections/sections.txt")
 
+
+
+        
+        #Menu Bar
+        self.menu = wx.Menu("Ello Govna")
+        
+
         #Left Hand Tree
         self.treePanel = wx.Panel(self, size=wx.Size(250,1800), pos= wx.Point(0,0))
+        
         self.tree = wx.TreeCtrl(self.treePanel,size=wx.Size(150,3000))
+        self.tree.SetBackgroundColour("Dark Olive Green")
+        self.tree.SetForegroundColour("White")
         root = self.tree.AddRoot("Polyglot")  
 
         self.adjectives = self.tree.InsertItem(root,0,adjLabelText)
@@ -95,8 +111,14 @@ class TestFrame(wx.Frame):
         displayWords(self.grid, dic)
         self.grid.Bind(wx.grid.EVT_GRID_CELL_CHANGED, self.OnChangeCell)
 
+
+
+        
+        
+
         #Language Panel RHS
         self.langPanel = wx.Panel(self,pos=wx.Point(1200,0),size=wx.Size(750,500))
+        self.langPanel.SetBackgroundColour("Cornflower Blue")
         self.enterNoun = wx.TextCtrl(self.langPanel, -1,"", wx.Point(175,15))
         self.enterNoun.SetInsertionPoint(0)
         self.enterVerb = wx.TextCtrl(self.langPanel, -1,"", wx.Point(175,40))
@@ -108,10 +130,15 @@ class TestFrame(wx.Frame):
         self.enterOther = wx.TextCtrl(self.langPanel, -1,"", wx.Point(175,115))
         self.enterOther.SetInsertionPoint(0)
         self.nounBtn = wx.Button(self.langPanel, label="Add Noun Category: ", size=wx.Size(135,23), pos=wx.Point(25,15))
+        self.nounBtn.SetBackgroundColour("White")
         self.verbBtn = wx.Button(self.langPanel, label="Add Verb Category: ", size=wx.Size(135,23), pos=wx.Point(25,40))
+        self.verbBtn.SetBackgroundColour("White")
         self.adjBtn = wx.Button(self.langPanel, label="Add Adjective Category: ", size=wx.Size(135,23), pos=wx.Point(25,65))
+        self.adjBtn.SetBackgroundColour("White")
         self.adverbBtn = wx.Button(self.langPanel, label="Add Adverb Category: ", size=wx.Size(135,23), pos=wx.Point(25,90))
+        self.adverbBtn.SetBackgroundColour("White")
         self.otherBtn = wx.Button(self.langPanel, label="Add Other Category: ", size=wx.Size(135,23), pos=wx.Point(25,115))
+        self.otherBtn.SetBackgroundColour("White")
         self.otherBtn.Bind(wx.EVT_BUTTON, self.addOther)
         self.nounBtn.Bind(wx.EVT_BUTTON, self.addNoun)
         self.verbBtn.Bind(wx.EVT_BUTTON, self.addVerb)
@@ -121,12 +148,14 @@ class TestFrame(wx.Frame):
         #Hide/Show buttons
         showHideEng = ShowButton(self.langPanel, lbl=f"Hide English", sz=wx.Size(75, 50), ps=wx.Point(25 ,200))
         showHideEng.Bind(wx.EVT_BUTTON, self.showHide)
+        showHideEng.SetBackgroundColour("Medium Violet Red")
         data = loadPickle("./Sections/words.txt")
         languages = list(data[list(data)[0]])
         for count, lang in enumerate(languages):
             
             showHideBtn = ShowButton(self.langPanel, lbl=f"Hide {lang}", sz=wx.Size(75, 50), ps=wx.Point(25 + (count % 6 + 1) * 90 , (200 if count < 6 else 270)))  #Change this to include more rows
             showHideBtn.Bind(wx.EVT_BUTTON, self.showHide)
+            showHideBtn.SetBackgroundColour("Medium Violet Red")
 
         shuffleBtn = wx.Button(self.langPanel, label="Shuffle\nWords", size=wx.Size(120,60),pos=wx.Point(400,40))
         shuffleBtn.Bind(wx.EVT_BUTTON, self.shuffleWords)
@@ -153,6 +182,18 @@ class TestFrame(wx.Frame):
         remLangBtn.Bind(wx.EVT_BUTTON, self.removeOnClick)
 
 
+    
+
+
+
+    def showIntro(self):
+        #Welcome Text box
+        if loadPickle("./Sections/FirstTime.txt"):
+            welcome = wx.MessageDialog(None, welcomeText, "Welcome to PolyGlot", wx.OK)
+            result = welcome.ShowModal()
+            print(result)
+
+    
     def toggleAuto(self,e):
         obj = e.GetEventObject()
         option = obj.GetLabel()
@@ -179,6 +220,8 @@ class TestFrame(wx.Frame):
         data = loadPickle(f"./Sections/{self.currentGrid}.txt")
         if language.lower() == "mandarin":
             try:
+                wait = wx.BusyInfo("Please wait, the words are currently being filled in, this may take a few minutes for a large number of words...")
+                wait2 = wx.BusyCursor()
                 for k in data:
                     if data[k][language] == "":
                         data[k][language] = gt.Translator().translate(k, dest="zh-CN").text 
@@ -188,6 +231,8 @@ class TestFrame(wx.Frame):
                 print("Sorry didn't work.")
 
         try:
+            wait = wx.BusyInfo("Please wait, the words are currently being filled in, this may take a few minutes for a large number of words...")
+            wait2 = wx.BusyCursor()
             for k in data:
                 if data[k][language] == "":
                 
@@ -198,7 +243,8 @@ class TestFrame(wx.Frame):
             print("Can't find that language with Googie Trans\n")
         displayWords(self.grid, data)
         dumpPickle(f"./Sections/{self.currentGrid}.txt" , data)
-        
+        del wait
+        del wait2
 
 
     def showHide(self, e):
@@ -602,4 +648,8 @@ class TestFrame(wx.Frame):
 app = wx.App()
 frame = TestFrame()
 frame.Show()
+#Welcome Text
+isFirstTime = loadPickle("./Sections/FirstTime.txt")
+if isFirstTime:
+    frame.showIntro()
 app.MainLoop()
