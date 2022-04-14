@@ -19,6 +19,9 @@ be accurate. To add a language, type the language into the text box next to
 the "Add Language" option and click the button. Be sure to spell the language correctly so that Google translate can recognize it for the auto-fill option. 
 '''
 
+helpText = ''' Enter words 
+'''
+
 
 class ShowButton(wx.Button):
     def __init__(self, parent, lbl, sz, ps):
@@ -66,7 +69,7 @@ class TestFrame(wx.Frame):
         menu = wx.Menu()
         help = menu.Append(-1, "About PolyGlot")
         menuBar.Append(menu, "About")
-        self.Bind(wx.EVT_MENU, self.showIntro, help)
+        self.Bind(wx.EVT_MENU, self.showHelp, help)
         self.SetMenuBar(menuBar)
 
         #Left Hand Tree
@@ -107,7 +110,7 @@ class TestFrame(wx.Frame):
         self.gridPanel = wx.Panel(self, size=wx.Size(1025,1000), pos=wx.Point(150,0))
         self.grid = wx.grid.Grid(self.gridPanel,size=wx.Size(1025,1000))
         self.grid.CreateGrid(6000 ,self.numLangs + 3)
-        self.grid.SetDefaultCellBackgroundColour(wx.Colour(215,255,234))
+        self.grid.SetDefaultCellBackgroundColour("White")
         self.grid.SetDefaultColSize(100)
         self.grid.SetDefaultCellOverflow(False)
         self.grid.SetDefaultCellFont(wx.Font(11,wx.FONTFAMILY_DEFAULT,wx.FONTSTYLE_NORMAL,wx.FONTWEIGHT_MEDIUM))
@@ -122,7 +125,7 @@ class TestFrame(wx.Frame):
 
         #Right Hand Side
         self.langPanel = wx.Panel(self,pos=wx.Point(1200,0),size=wx.Size(750,2000))
-        self.langPanel.SetBackgroundColour("Cornflower Blue")
+        self.langPanel.SetBackgroundColour("Dark Olive Green")
         self.enterNoun = wx.TextCtrl(self.langPanel, -1,"", wx.Point(175,15))
         self.enterNoun.SetInsertionPoint(0)
         self.enterVerb = wx.TextCtrl(self.langPanel, -1,"", wx.Point(175,40))
@@ -134,15 +137,15 @@ class TestFrame(wx.Frame):
         self.enterOther = wx.TextCtrl(self.langPanel, -1,"", wx.Point(175,115))
         self.enterOther.SetInsertionPoint(0)
         self.nounBtn = wx.Button(self.langPanel, label="Add Noun Category: ", size=wx.Size(135,23), pos=wx.Point(25,15))
-        self.nounBtn.SetBackgroundColour("White")
+        #self.nounBtn.SetBackgroundColour("Grey")
         self.verbBtn = wx.Button(self.langPanel, label="Add Verb Category: ", size=wx.Size(135,23), pos=wx.Point(25,40))
-        self.verbBtn.SetBackgroundColour("White")
+        #self.verbBtn.SetBackgroundColour("Grey")
         self.adjBtn = wx.Button(self.langPanel, label="Add Adjective Category: ", size=wx.Size(135,23), pos=wx.Point(25,65))
-        self.adjBtn.SetBackgroundColour("White")
+        #self.adjBtn.SetBackgroundColour("Grey")
         self.adverbBtn = wx.Button(self.langPanel, label="Add Adverb Category: ", size=wx.Size(135,23), pos=wx.Point(25,90))
-        self.adverbBtn.SetBackgroundColour("White")
+        #self.adverbBtn.SetBackgroundColour("White")
         self.otherBtn = wx.Button(self.langPanel, label="Add Other Category: ", size=wx.Size(135,23), pos=wx.Point(25,115))
-        self.otherBtn.SetBackgroundColour("White")
+        #self.otherBtn.SetBackgroundColour("White")
         self.otherBtn.Bind(wx.EVT_BUTTON, self.addOther)
         self.nounBtn.Bind(wx.EVT_BUTTON, self.addNoun)
         self.verbBtn.Bind(wx.EVT_BUTTON, self.addVerb)
@@ -155,30 +158,30 @@ class TestFrame(wx.Frame):
         for l in self.languages:
             choices.append(l)
         
-        hideText = wx.StaticText(self.langPanel, label="Hide Language", pos=wx.Point(25,375))
-        hideText.SetForegroundColour(wx.Colour(255,0,0))
-        self.hideOption = wx.Choice(self.langPanel, pos=wx.Point(25,400), choices=choices)
-        self.hideOption.Bind(wx.EVT_CHOICE ,self.hideLang)
-        self.hideOption.SetForegroundColour(wx.Colour(0,0,255))
+        #hideText = wx.StaticText(self.langPanel, label="Hide Language", pos=wx.Point(25,375))
+        #hideText.SetForegroundColour(wx.Colour(255,0,0))
+        #self.hideOption = wx.Choice(self.langPanel, pos=wx.Point(25,400), choices=choices)
+        #self.hideOption.Bind(wx.EVT_CHOICE ,self.hideLang)
+        #self.hideOption.SetForegroundColour(wx.Colour(0,0,255))
 
-        showText = wx.StaticText(self.langPanel, label="Hide Language", pos=wx.Point(110,375))
-        showText.SetForegroundColour(wx.Colour(0,255,255))
-        self.showOption = wx.Choice(self.langPanel, pos=wx.Point(110,400), choices=choices)
-        self.showOption.Bind(wx.EVT_CHOICE ,self.showLang)
-        self.showOption.SetForegroundColour(wx.Colour(255,0,0))
+        #showText = wx.StaticText(self.langPanel, label="Hide Language", pos=wx.Point(110,375))
+        #showText.SetForegroundColour(wx.Colour(0,255,255))
+        #self.showOption = wx.Choice(self.langPanel, pos=wx.Point(110,400), choices=choices)
+        #self.showOption.Bind(wx.EVT_CHOICE ,self.showLang)
+        #self.showOption.SetForegroundColour(wx.Colour(255,0,0))
         
 
         #Hide/Show buttons
         showHideEng = ShowButton(self.langPanel, lbl=f"Hide English", sz=wx.Size(75, 50), ps=wx.Point(25 ,200))
         showHideEng.Bind(wx.EVT_BUTTON, self.showHide)
-        showHideEng.SetBackgroundColour("Medium Violet Red")
+        #showHideEng.SetBackgroundColour("White")
         data = loadPickle("./Sections/words.txt")
         languages = list(data[list(data)[0]])
         for count, lang in enumerate(languages):
             
             showHideBtn = ShowButton(self.langPanel, lbl=f"Hide {lang}", sz=wx.Size(75, 50), ps=wx.Point(25 + (count % 6 + 1) * 90 , (200 if count < 6 else 270)))  #Change this to include more rows
             showHideBtn.Bind(wx.EVT_BUTTON, self.showHide)
-            showHideBtn.SetBackgroundColour("Medium Violet Red")
+            #showHideBtn.SetBackgroundColour("White")
 
         shuffleBtn = wx.Button(self.langPanel, label="Shuffle\nWords", size=wx.Size(120,60),pos=wx.Point(400,40))
         shuffleBtn.Bind(wx.EVT_BUTTON, self.shuffleWords)
@@ -203,24 +206,25 @@ class TestFrame(wx.Frame):
         self.removeLangBox.SetInsertionPoint(0)
         remLangBtn = wx.Button(self.langPanel,label="Remove Language: ", size=wx.Size(135,23),pos=wx.Point(325,150))
         remLangBtn.Bind(wx.EVT_BUTTON, self.removeOnClick)
-
         
         
-        
-        self.tree.Bind(wx.EVT_KEY_DOWN, self.testy)
     
-    def testy(self,e):
-        obj = e.GetEventObject()
-        rect = wx.GetClientDisplayRect()
-        clientHeight = rect[2]; clientWidth = rect[3]
-        self.Move(clientWidth, clientHeight)
-
+   
+  
         
     def showIntro(self, e):
         #Welcome Text box
         if loadPickle("./Sections/FirstTime.txt"):
             welcome = wx.MessageDialog(None, welcomeText, "Welcome to PolyGlot", wx.OK)
-            result = welcome.ShowModal()
+            welcome.ShowModal()
+        dumpPickle("./Sections/FirstTime.txt", False)
+
+    def showHelp(self, e):
+        #Help Text box
+        print("helpme")
+        helpDlg = wx.MessageDialog(None, helpText, "PolyGlot Help", wx.OK)
+        response = helpDlg.ShowModal()
+        
             
     
     def toggleAuto(self,e):
