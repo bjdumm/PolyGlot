@@ -459,7 +459,9 @@ class TestFrame(wx.Frame):
                         foreignWord = self.grid.GetCellValue(row, i)
                         if foreignWord == "" and self.autoFillOn:
                             try:
-                                dic[newWord][fCol] = translator.translate(newWord, dest=fCol).text
+                                translated = translator.translate(newWord, dest=fCol).text
+                                dic[newWord][fCol] = translated
+                                self.grid.SetCellValue(row, i, translated)
                             except:
                                 print("Language not recognized by Google translate")
                         else:
@@ -477,7 +479,9 @@ class TestFrame(wx.Frame):
                     flang = self.grid.GetColLabelValue(i)
                     if fWord == "" and flang != lang and self.autoFillOn:  #Only if there is not foreign word currently
                         try:
-                            dic[engWord][flang] = translator.translate(engWord, dest=flang).text
+                            translated = translator.translate(engWord, dest=flang).text
+                            dic[engWord][flang] = translated
+                            self.grid.SetCellValue(row, i, translated)
                         except:
                             print("Google Translate Error!!!\n\n\n")
                     else:
@@ -489,15 +493,17 @@ class TestFrame(wx.Frame):
                     try:
                         english = translator.translate(newWord, dest="en", src=lang).text
                         dic[english] = {}
-                
+                        self.grid.SetCellValue(row,0,english)
                         for i in range(1,numberOfLangs+1):
                             flang = self.grid.GetColLabelValue(i)
-                            dic[english][flang] = translator.translate(english, dest=flang).text
+                            translated = translator.translate(english, dest=flang).text
+                            dic[english][flang] = translated
+                            self.grid.SetCellValue(row, i, translated)
                     except:
                         print("Google translate error!!!")                        
                         
                 else:
-                    print("I'm in here!!\n\n\n")
+                    
                     try:
                         engKey = translator.translate(newWord, dest="en", src=lang).text
                         dic[engKey] = {}
@@ -554,12 +560,12 @@ class TestFrame(wx.Frame):
             displayWords(self.grid, new)
         elif (self.currentGrid in self.otherList):
             dumpPickle(f"{self.otherList[self.currentGrid]}",dic)
-            new = loadPickle(f"{self.otherList[self.currentGrid]}")            
-            displayWords(self.grid, new)
+            #new = loadPickle(f"{self.otherList[self.currentGrid]}")            
+            #displayWords(self.grid, new)
         else:
             dumpPickle(f"{self.sections[self.currentGrid]}",dic)
-            new = loadPickle(f"{self.sections[self.currentGrid]}")            
-            displayWords(self.grid, new)
+            #new = loadPickle(f"{self.sections[self.currentGrid]}")            
+            #displayWords(self.grid, new)
             
     #Adds newly created section file to appropriate tree section
     def addFile(self,label,section):
