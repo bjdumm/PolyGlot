@@ -42,6 +42,6 @@ import time
 #    print(dic)
 
 
-isFirstTime = loadPickle("./Sections/FirstTime.txt")
-
+others = loadPickle("./Sections/otherSections.txt")
+print(others)
 

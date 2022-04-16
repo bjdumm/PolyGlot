@@ -124,8 +124,12 @@ class TestFrame(wx.Frame):
         
 
         #Right Hand Side
+
+        rhsSizer = wx.BoxSizer(wx.VERTICAL)
+
         self.langPanel = wx.Panel(self,pos=wx.Point(1200,0),size=wx.Size(750,2000))
         self.langPanel.SetBackgroundColour("Dark Olive Green")
+
         self.enterNoun = wx.TextCtrl(self.langPanel, -1,"", wx.Point(175,15))
         self.enterNoun.SetInsertionPoint(0)
         self.enterVerb = wx.TextCtrl(self.langPanel, -1,"", wx.Point(175,40))
@@ -136,16 +140,12 @@ class TestFrame(wx.Frame):
         self.enterAdverb.SetInsertionPoint(0)
         self.enterOther = wx.TextCtrl(self.langPanel, -1,"", wx.Point(175,115))
         self.enterOther.SetInsertionPoint(0)
-        self.nounBtn = wx.Button(self.langPanel, label="Add Noun Category: ", size=wx.Size(135,23), pos=wx.Point(25,15))
-        #self.nounBtn.SetBackgroundColour("Grey")
+        self.nounBtn = wx.Button(self.langPanel, label="Add Noun Category: ", size=wx.Size(135,23), pos=wx.Point(25,15)) 
         self.verbBtn = wx.Button(self.langPanel, label="Add Verb Category: ", size=wx.Size(135,23), pos=wx.Point(25,40))
-        #self.verbBtn.SetBackgroundColour("Grey")
         self.adjBtn = wx.Button(self.langPanel, label="Add Adjective Category: ", size=wx.Size(135,23), pos=wx.Point(25,65))
-        #self.adjBtn.SetBackgroundColour("Grey")
         self.adverbBtn = wx.Button(self.langPanel, label="Add Adverb Category: ", size=wx.Size(135,23), pos=wx.Point(25,90))
-        #self.adverbBtn.SetBackgroundColour("White")
         self.otherBtn = wx.Button(self.langPanel, label="Add Other Category: ", size=wx.Size(135,23), pos=wx.Point(25,115))
-        #self.otherBtn.SetBackgroundColour("White")
+        
         self.otherBtn.Bind(wx.EVT_BUTTON, self.addOther)
         self.nounBtn.Bind(wx.EVT_BUTTON, self.addNoun)
         self.verbBtn.Bind(wx.EVT_BUTTON, self.addVerb)
@@ -353,6 +353,8 @@ class TestFrame(wx.Frame):
         lang = self.addLangBox.GetLineText(0)
         self.addLangBox.SetLabelText("")
         numLangs = loadPickle("./Sections/numLangs.txt")
+        if lang == "":
+            return
         try:
             addLanguage(lang)
             numLangs = numLangs + 1
@@ -572,9 +574,9 @@ class TestFrame(wx.Frame):
         #Load data -> Grab current languages -> Initalize them in the dic variable
         d = loadPickle("./Sections/words.txt")
         langs = list(d[list(d)[0]])
-        dic = {"Enter here": {}}
+        dic = {label: {}}
         for l in langs:
-            dic["Enter here"][l] = ""
+            dic[label][l] = ""
 
 
         if (section == "Nouns"):
@@ -600,30 +602,40 @@ class TestFrame(wx.Frame):
             
     def addNoun(self,e):
         newSection = self.enterNoun.GetLineText(0)
+        if newSection == "":
+            return
         idx = self.tree.GetChildrenCount(self.nouns,recursively=False)
         self.newLabel = self.tree.InsertItem(self.nouns, idx, newSection)
         self.addFile(newSection,"Nouns")
         self.enterNoun.SetLabelText("")
     def addVerb(self,e):
         newSection = self.enterVerb.GetLineText(0)
+        if newSection == "":
+            return
         idx = self.tree.GetChildrenCount(self.verbs,recursively=False)
         self.newLabel = self.tree.InsertItem(self.verbs, idx, newSection)
         self.addFile(newSection,"Verbs")
         self.enterVerb.SetLabelText("")
     def addAdj(self,e):
         newSection = self.enterAdj.GetLineText(0)
+        if newSection == "":
+            return
         idx = self.tree.GetChildrenCount(self.adjectives,recursively=False)
         self.newLabel = self.tree.InsertItem(self.adjectives, idx, newSection)
         self.addFile(newSection,"Adjectives")
         self.enterAdj.SetLabelText("")
     def addAdverbs(self,e):
         newSection = self.enterAdverb.GetLineText(0)
+        if newSection == "":
+            return
         idx = self.tree.GetChildrenCount(self.adverbs,recursively=False)
         self.newLabel = self.tree.InsertItem(self.adverbs, idx, newSection)
         self.addFile(newSection,"Adverbs")
         self.enterAdverb.SetLabelText("")
     def addOther(self,e):
         newSection = self.enterOther.GetLineText(0)
+        if newSection == "":
+            return
         idx = self.tree.GetChildrenCount(self.other,recursively=False)
         self.newLabel = self.tree.InsertItem(self.other, idx, newSection)
         self.addFile(newSection,"Other")
