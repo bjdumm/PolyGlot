@@ -604,41 +604,61 @@ class TestFrame(wx.Frame):
         newSection = self.enterNoun.GetLineText(0)
         if newSection == "":
             return
-        idx = self.tree.GetChildrenCount(self.nouns,recursively=False)
-        self.newLabel = self.tree.InsertItem(self.nouns, idx, newSection)
-        self.addFile(newSection,"Nouns")
+        box = wx.MessageDialog(None,f"Add the {newSection} section?","Add Section",wx.YES_NO)
+        res = box.ShowModal()
+        box.Destroy()
+        if res == wx.ID_YES:
+            idx = self.tree.GetChildrenCount(self.nouns,recursively=False)
+            self.newLabel = self.tree.InsertItem(self.nouns, idx, newSection)
+            self.addFile(newSection,"Nouns")
         self.enterNoun.SetLabelText("")
     def addVerb(self,e):
         newSection = self.enterVerb.GetLineText(0)
         if newSection == "":
             return
-        idx = self.tree.GetChildrenCount(self.verbs,recursively=False)
-        self.newLabel = self.tree.InsertItem(self.verbs, idx, newSection)
-        self.addFile(newSection,"Verbs")
+        box = wx.MessageDialog(None,f"Add the {newSection} section?","Add Section",wx.YES_NO)
+        res = box.ShowModal()
+        box.Destroy()
+        if res == wx.ID_YES:
+            idx = self.tree.GetChildrenCount(self.verbs,recursively=False)
+            self.newLabel = self.tree.InsertItem(self.verbs, idx, newSection)
+            self.addFile(newSection,"Verbs")
         self.enterVerb.SetLabelText("")
     def addAdj(self,e):
         newSection = self.enterAdj.GetLineText(0)
         if newSection == "":
             return
-        idx = self.tree.GetChildrenCount(self.adjectives,recursively=False)
-        self.newLabel = self.tree.InsertItem(self.adjectives, idx, newSection)
-        self.addFile(newSection,"Adjectives")
+        box = wx.MessageDialog(None,f"Add the {newSection} section?","Add Section",wx.YES_NO)
+        res = box.ShowModal()
+        box.Destroy()
+        if res == wx.ID_YES:
+            idx = self.tree.GetChildrenCount(self.adjectives,recursively=False)
+            self.newLabel = self.tree.InsertItem(self.adjectives, idx, newSection)
+            self.addFile(newSection,"Adjectives")
         self.enterAdj.SetLabelText("")
     def addAdverbs(self,e):
         newSection = self.enterAdverb.GetLineText(0)
         if newSection == "":
             return
-        idx = self.tree.GetChildrenCount(self.adverbs,recursively=False)
-        self.newLabel = self.tree.InsertItem(self.adverbs, idx, newSection)
-        self.addFile(newSection,"Adverbs")
+        box = wx.MessageDialog(None,f"Add the {newSection} section?","Add Section",wx.YES_NO)
+        res = box.ShowModal()
+        box.Destroy()
+        if res == wx.ID_YES:
+            idx = self.tree.GetChildrenCount(self.adverbs,recursively=False)
+            self.newLabel = self.tree.InsertItem(self.adverbs, idx, newSection)
+            self.addFile(newSection,"Adverbs")
         self.enterAdverb.SetLabelText("")
     def addOther(self,e):
         newSection = self.enterOther.GetLineText(0)
         if newSection == "":
             return
-        idx = self.tree.GetChildrenCount(self.other,recursively=False)
-        self.newLabel = self.tree.InsertItem(self.other, idx, newSection)
-        self.addFile(newSection,"Other")
+        box = wx.MessageDialog(None,f"Add the {newSection} section?","Add Section",wx.YES_NO)
+        res = box.ShowModal()
+        box.Destroy()
+        if res == wx.ID_YES:
+            idx = self.tree.GetChildrenCount(self.other,recursively=False)
+            self.newLabel = self.tree.InsertItem(self.other, idx, newSection)
+            self.addFile(newSection,"Other")
         self.enterOther.SetLabelText("")
     
         
@@ -661,14 +681,13 @@ class TestFrame(wx.Frame):
                     
     def deleteSection(self,e):
         #Check parent -> THen remove from that sectionList and pickle -> remove node with function
-        NO = 5104
-        YES = 5103
+        
         treeItem = self.tree.GetFocusedItem()  #wx TreeItem
         title = self.tree.GetItemText(treeItem)
         box = wx.MessageDialog(None,f"Are you sure you want to delete the {title} section?","Delete Section",wx.YES_NO)
         response = box.ShowModal()
         box.Destroy()
-        if (response == YES):
+        if (response == wx.ID_YES):
               
             deletedParent = self.tree.GetItemParent(treeItem)  #wx TreeItem of parent
             self.tree.Delete(treeItem)
@@ -718,12 +737,13 @@ class TestFrame(wx.Frame):
             
             if (os.path.exists(f"./Sections/{title}.txt")):
                 os.remove(f"./Sections/{title}.txt")
-        elif (response == NO):
-            print("goodbye govna.")
+            
+            self.grid.ClearGrid()
+        
         else:
-            pass
+            return
 
-        self.grid.ClearGrid()
+        
           
 app = wx.App()
 frame = TestFrame()
