@@ -64,6 +64,7 @@ class TestFrame(wx.Frame):
             self.languages.append(k)
         
         
+        
         #Menu Bar
         menuBar = wx.MenuBar()
         menu = wx.Menu()
@@ -355,16 +356,24 @@ class TestFrame(wx.Frame):
         numLangs = loadPickle("./Sections/numLangs.txt")
         if lang == "":
             return
-        try:
-            addLanguage(lang)
-            numLangs = numLangs + 1
-            dumpPickle("./Sections/numLangs.txt",numLangs)
-        except:
-            print("Didnt' succesfully add language")
+        
+        
+        box = wx.MessageDialog(None, f"Add the language, {lang}?", "Add Language", wx.YES_NO)
+        res = box.ShowModal()
+        if res == wx.ID_YES:
+        
+            try:
+                addLanguage(lang)
+                numLangs = numLangs + 1
+                dumpPickle("./Sections/numLangs.txt",numLangs)
+            except:
+                print("Didnt' succesfully add language")
 
-        self.grid.ClearGrid()
-        newWords = loadPickle(f"./Sections/{self.currentGrid}.txt")
-        displayWords(self.grid, newWords)
+            self.grid.ClearGrid()
+            newWords = loadPickle(f"./Sections/{self.currentGrid}.txt")
+            displayWords(self.grid, newWords)
+        else:
+            return
         
 
     #Remove a language from the grid  
@@ -375,18 +384,16 @@ class TestFrame(wx.Frame):
         words = loadPickle("./Sections/words.txt")
         
         if (language not in words[list(words.keys())[0]] and language != 'English'):
-            box2 = wx.MessageDialog(None,f"THat language is not in the data, Please enter language exactly as seen on the table","Remove Language",wx.OK)
+            box2 = wx.MessageDialog(None,f"THat language is not in the data, Please enter language as seen on the table","Remove Language",wx.OK)
             box2.Destroy()
         elif (language == 'English'):
-            box2 = wx.MessageDialog(None,f"English cannot be removed, the words for all languages are stored with relation to their English counterpart","Remove Language",wx.OK)
+            box2 = wx.MessageDialog(None,f"English cannot be removed","Remove Language",wx.OK)
             box2.Destroy()
         else:
-            NO = 5104
-            YES = 5103
             box = wx.MessageDialog(None,f"Are you sure you want to permanently remove {language}?",f"Remove {language}",wx.YES_NO)
             response = box.ShowModal()
             box.Destroy()
-            if (response == YES):
+            if (response == wx.ID_YES):
                 self.removeLang(language)
             else:
                 return
@@ -394,20 +401,23 @@ class TestFrame(wx.Frame):
     #DOn't allow english to be removed
     def removeLang(self, lang):
         numLangs = loadPickle("./Sections/numLangs.txt")
+        
         try:
             delLanguage(lang)
             numLangs = numLangs - 1
             dumpPickle("./Sections/numLangs.txt", numLangs)
+            self.grid.ClearGrid()
+            data = loadPickle(f"./Sections/{self.currentGrid}.txt")
+            for i in range(numLangs):
+                if self.grid.GetColLabelValue(i) == lang:
+                    self.grid.DeleteCols(i) 
+            displayWords(self.grid, data)
         except:
             print("Something went wrong, remove language didn't work")
+            return
         
-        self.grid.ClearGrid()
-        data = loadPickle(f"./Sections/{self.currentGrid}.txt")
-        for i in range(numLangs):
-            if self.grid.GetColLabelValue(i) == lang:
-                self.grid.DeleteCols(i) 
-        displayWords(self.grid, data)
-        return   
+        
+       
 
 
 
