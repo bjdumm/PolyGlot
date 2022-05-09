@@ -126,7 +126,7 @@ class TestFrame(wx.Frame):
 
         #Right Hand Side
 
-        rhsSizer = wx.BoxSizer(wx.VERTICAL)
+        
 
         self.langPanel = wx.Panel(self,pos=wx.Point(1200,0),size=wx.Size(750,2000))
         self.langPanel.SetBackgroundColour("Dark Olive Green")
@@ -147,6 +147,21 @@ class TestFrame(wx.Frame):
         self.adverbBtn = wx.Button(self.langPanel, label="Add Adverb Category: ", size=wx.Size(135,23), pos=wx.Point(25,90))
         self.otherBtn = wx.Button(self.langPanel, label="Add Other Category: ", size=wx.Size(135,23), pos=wx.Point(25,115))
         
+        rhsSizer = wx.BoxSizer(wx.VERTICAL)
+        rhsSizer.Add(self.enterNoun,0,wx.ALL|wx.ALIGN_LEFT,10)
+        rhsSizer.Add(self.enterVerb,0,wx.ALL|wx.ALIGN_LEFT,10)
+        rhsSizer.Add(self.enterAdj,0,wx.ALL|wx.ALIGN_LEFT,10)
+        rhsSizer.Add(self.enterAdverb,0,wx.ALL|wx.ALIGN_LEFT,10)
+        rhsSizer.Add(self.enterOther,0,wx.ALL|wx.ALIGN_LEFT,10)
+        rhsSizer.Add(self.nounBtn,0,wx.ALL|wx.ALIGN_LEFT,10)
+        rhsSizer.Add(self.verbBtn,0,wx.ALL|wx.ALIGN_LEFT,10)
+        rhsSizer.Add(self.adjBtn,0,wx.ALL|wx.ALIGN_LEFT,10)
+        rhsSizer.Add(self.adverbBtn,0,wx.ALL|wx.ALIGN_LEFT,10)
+        rhsSizer.Add(self.otherBtn,0,wx.ALL|wx.ALIGN_LEFT,10)
+        
+        self.langPanel.SetSizer(rhsSizer)
+        
+
         self.otherBtn.Bind(wx.EVT_BUTTON, self.addOther)
         self.nounBtn.Bind(wx.EVT_BUTTON, self.addNoun)
         self.verbBtn.Bind(wx.EVT_BUTTON, self.addVerb)
