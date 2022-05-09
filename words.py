@@ -19,8 +19,6 @@ vocab = {
     'Cat': {'German': 'die Katze', 'Spanish': 'el gato', 'Italian': 'Ciao', 'French':'Fr', 'Latin': 'now?', 'DeleteMe': ''},
     'Bat': {'German': 'Fliedermaus', 'Spanish': 'grande', 'Italian': 'big', 'French':'Fr', 'Latin': '', 'DeleteMe': ''},
     'Elephant': {'German': '', 'Spanish': 'el elefante', 'Italian': 'smallo', 'French':'Fr', 'Latin': '', 'DeleteMe': ''},
-    'ello': {'German': '', 'Spanish': '', 'Italian': '', 'French':'Fr', 'Latin': '', 'DeleteMe': ''},
-    'govna': {'German': '', 'Spanish': '', 'Italian': '', 'French':'Fr', 'Latin': '', 'DeleteMe': ''}
 }
 
 adjectives = {
@@ -106,9 +104,3 @@ other = {
 #with open("Other.txt","rb") as fd:
 #    dic = pickle.load(fd)
 #print(dic)
-
-
-
-
-#len(list(dic)) -> Number of rows
-#len(list(dic)[0]) -> Number of cols
