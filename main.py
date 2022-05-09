@@ -48,7 +48,7 @@ class MyGrid(wx.grid.Grid):
             if (newWord == ""):
                 dic.pop(oldWord)
             else:
-                dic[newWord] = {}  #later, check whether already in dictionary
+                dic[newWord] = {}  
                 
                 for i in range(numLangs):
                     fCol = self.GetColLabelValue(i)
@@ -82,7 +82,6 @@ class langPanel(wx.Panel):
 
     def OnClick(self, e):
         self.lang = self.enterLang.GetValue()
-        #Now recall MyGrid with updated dictionary after adding new key
         dic = words.eng
         for k in dic.keys():
 	        dic[k][self.lang] = ""
@@ -111,7 +110,7 @@ class TreePanel(wx.Panel):
     
     #Event Handler for TreeItem select
     def changeContent(self):
-        print("COol beans it worked.")
+	pass
         
 
         
@@ -131,7 +130,7 @@ class TestFrame(wx.Frame):
         treePanel = TreePanel(self, size=wx.Size(250,1800), pos= wx.Point(0,0))
         langPan = langPanel(self,gridPanel)        
         
-        #Maybe access through frame.gridPanel.grid and re display-words???
+
 
       
 app = wx.App()
