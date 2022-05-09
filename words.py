@@ -19,8 +19,6 @@ vocab = {
     'Cat': {'German': 'die Katze', 'Spanish': 'el gato', 'Italian': 'Ciao', 'French':'Fr', 'Latin': 'now?', 'DeleteMe': ''},
     'Bat': {'German': 'Fliedermaus', 'Spanish': 'grande', 'Italian': 'big', 'French':'Fr', 'Latin': '', 'DeleteMe': ''},
     'Elephant': {'German': '', 'Spanish': 'el elefante', 'Italian': 'smallo', 'French':'Fr', 'Latin': '', 'DeleteMe': ''},
-    'ello': {'German': '', 'Spanish': '', 'Italian': '', 'French':'Fr', 'Latin': '', 'DeleteMe': ''},
-    'govna': {'German': '', 'Spanish': '', 'Italian': '', 'French':'Fr', 'Latin': '', 'DeleteMe': ''}
 }
 
 adjectives = {
@@ -32,7 +30,7 @@ adjectives = {
 
 nouns = {
     'Dog': {'German': 'der Hund','Spanish':'el perro','Italian':'Buono','French':'Bon'},
-    'Cat': {'German': 'die Katze','Spanish':'el gato','Italian':'Ciao','French':'bado'},
+    'Cat': {'German': 'die Katze','Spanish':'el gato','Italian':'Ciao','French':''},
     'Bat': {'German': 'Fliedermaus','Spanish':'grande','Italian':'big','French':'big'},
     'Elephant': {'German': '','Spanish':'el elefante','Italian':'smallo','French':'small'}
 }
@@ -65,50 +63,3 @@ other = {
     'Know (Be familiar)': {'German': 'Wissen','Spanish':'conocer','Italian':'smallo','French':'small'}
 }
 
-
-
-
-#Use this to manually reset words dictionary
-#with open("words.txt" , "rb") as fd:
-#    v = pickle.load(fd)
-#    print(v)
-
-#fd3 = open("Verbs.txt","wb")
-#pickle.dump(verbs, fd3)
-
-#fd3 = open("Adjectives.txt","wb")
-#pickle.dump(adjectives, fd3)
-
-#with open("Adverbs.txt","wb") as fd:
-    #pickle.dump(adverbs, fd)
-
-#with open("Adverbs.txt","rb") as fd:
-#    dic = pickle.load(fd)
-#print(dic)
-
-#with open("Prepositions.txt","wb") as fd:
-#    dic = {
-#        'On': {'German': 'Auf','Spanish':'en','Italian':'','French':'Bon','Latin':'inni'}
-#    }
-#    pickle.dump(dic, fd)
-
-#with open("Other.txt","wb") as fd:
-#    dic = {
-#        'Other': {'German': 'Andere','Spanish':'otro','Italian':'','French':'?','Latin':'inni'}
-#    }
-#    pickle.dump(dic, fd)
-
-#with open("Verbs.txt","wb") as fd:
-#    pickle.dump(verbs,fd)
-    
-#print(dic)
-
-#with open("Other.txt","rb") as fd:
-#    dic = pickle.load(fd)
-#print(dic)
-
-
-
-
-#len(list(dic)) -> Number of rows
-#len(list(dic)[0]) -> Number of cols

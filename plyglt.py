@@ -157,20 +157,8 @@ class TestFrame(wx.Frame):
         choices = ["English"]
         for l in self.languages:
             choices.append(l)
+     
         
-        #hideText = wx.StaticText(self.langPanel, label="Hide Language", pos=wx.Point(25,375))
-        #hideText.SetForegroundColour(wx.Colour(255,0,0))
-        #self.hideOption = wx.Choice(self.langPanel, pos=wx.Point(25,400), choices=choices)
-        #self.hideOption.Bind(wx.EVT_CHOICE ,self.hideLang)
-        #self.hideOption.SetForegroundColour(wx.Colour(0,0,255))
-
-        #showText = wx.StaticText(self.langPanel, label="Hide Language", pos=wx.Point(110,375))
-        #showText.SetForegroundColour(wx.Colour(0,255,255))
-        #self.showOption = wx.Choice(self.langPanel, pos=wx.Point(110,400), choices=choices)
-        #self.showOption.Bind(wx.EVT_CHOICE ,self.showLang)
-        #self.showOption.SetForegroundColour(wx.Colour(255,0,0))
-        
-
         #Hide/Show buttons
         showHideEng = ShowButton(self.langPanel, lbl=f"Hide English", sz=wx.Size(75, 50), ps=wx.Point(25 ,200))
         showHideEng.Bind(wx.EVT_BUTTON, self.showHide)
@@ -221,7 +209,6 @@ class TestFrame(wx.Frame):
 
     def showHelp(self, e):
         #Help Text box
-        print("helpme")
         helpDlg = wx.MessageDialog(None, helpText, "PolyGlot Help", wx.OK)
         response = helpDlg.ShowModal()
         
@@ -273,7 +260,7 @@ class TestFrame(wx.Frame):
                 else:
                     continue
         except:
-            print("Can't find that language with Googie Trans\n")
+            print("Can't find that language with Googie Translate\n")
         displayWords(self.grid, data)
         dumpPickle(f"./Sections/{self.currentGrid}.txt" , data)
         del wait
@@ -358,7 +345,7 @@ class TestFrame(wx.Frame):
             numLangs = numLangs + 1
             dumpPickle("./Sections/numLangs.txt",numLangs)
         except:
-            print("Didnt' succesfully add language")
+            print("Didn't succesfully add language")
 
         self.grid.ClearGrid()
         newWords = loadPickle(f"./Sections/{self.currentGrid}.txt")
@@ -517,7 +504,7 @@ class TestFrame(wx.Frame):
                     except:
                         print("Adding new english key for auto fill disabled when English is empty failed. Try again\n\n\n")
                     
-        #Should you load it at all?????????????!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        
         if (self.currentGrid == "words"):
             dumpPickle("./Sections/words.txt",dic)
             new = loadPickle("./Sections/words.txt")           
@@ -707,7 +694,7 @@ class TestFrame(wx.Frame):
             if (os.path.exists(f"./Sections/{title}.txt")):
                 os.remove(f"./Sections/{title}.txt")
         elif (response == NO):
-            print("goodbye govna.")
+            print("Nothing was deleted.")
         else:
             pass
 
