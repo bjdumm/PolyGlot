@@ -64,6 +64,7 @@ class TestFrame(wx.Frame):
             self.languages.append(k)
         
         
+        
         #Menu Bar
         menuBar = wx.MenuBar()
         menu = wx.Menu()
@@ -74,7 +75,6 @@ class TestFrame(wx.Frame):
 
         #Left Hand Tree
         self.treePanel = wx.Panel(self, size=wx.Size(250,1800), pos= wx.Point(0,0))
-        
         self.tree = wx.TreeCtrl(self.treePanel,size=wx.Size(150,3000))
         self.tree.SetBackgroundColour("Dark Olive Green")
         self.tree.SetForegroundColour("White")
@@ -105,6 +105,10 @@ class TestFrame(wx.Frame):
             self.tree.InsertItem(self.other,idx,k)
 
         self.tree.Bind(wx.EVT_TREE_ITEM_ACTIVATED, self.ChangeContent)
+        self.tree.Expand(root)
+
+
+
         
         #Center Grid
         self.gridPanel = wx.Panel(self, size=wx.Size(1025,1000), pos=wx.Point(150,0))
@@ -124,8 +128,12 @@ class TestFrame(wx.Frame):
         
 
         #Right Hand Side
+
+        
+
         self.langPanel = wx.Panel(self,pos=wx.Point(1200,0),size=wx.Size(750,2000))
         self.langPanel.SetBackgroundColour("Dark Olive Green")
+
         self.enterNoun = wx.TextCtrl(self.langPanel, -1,"", wx.Point(175,15))
         self.enterNoun.SetInsertionPoint(0)
         self.enterVerb = wx.TextCtrl(self.langPanel, -1,"", wx.Point(175,40))
@@ -136,16 +144,27 @@ class TestFrame(wx.Frame):
         self.enterAdverb.SetInsertionPoint(0)
         self.enterOther = wx.TextCtrl(self.langPanel, -1,"", wx.Point(175,115))
         self.enterOther.SetInsertionPoint(0)
-        self.nounBtn = wx.Button(self.langPanel, label="Add Noun Category: ", size=wx.Size(135,23), pos=wx.Point(25,15))
-        #self.nounBtn.SetBackgroundColour("Grey")
+        self.nounBtn = wx.Button(self.langPanel, label="Add Noun Category: ", size=wx.Size(135,23), pos=wx.Point(25,15)) 
         self.verbBtn = wx.Button(self.langPanel, label="Add Verb Category: ", size=wx.Size(135,23), pos=wx.Point(25,40))
-        #self.verbBtn.SetBackgroundColour("Grey")
         self.adjBtn = wx.Button(self.langPanel, label="Add Adjective Category: ", size=wx.Size(135,23), pos=wx.Point(25,65))
-        #self.adjBtn.SetBackgroundColour("Grey")
         self.adverbBtn = wx.Button(self.langPanel, label="Add Adverb Category: ", size=wx.Size(135,23), pos=wx.Point(25,90))
-        #self.adverbBtn.SetBackgroundColour("White")
         self.otherBtn = wx.Button(self.langPanel, label="Add Other Category: ", size=wx.Size(135,23), pos=wx.Point(25,115))
-        #self.otherBtn.SetBackgroundColour("White")
+        
+        rhsSizer = wx.BoxSizer(wx.VERTICAL)
+        rhsSizer.Add(self.enterNoun,0,wx.ALL|wx.ALIGN_LEFT,10)
+        rhsSizer.Add(self.enterVerb,0,wx.ALL|wx.ALIGN_LEFT,10)
+        rhsSizer.Add(self.enterAdj,0,wx.ALL|wx.ALIGN_LEFT,10)
+        rhsSizer.Add(self.enterAdverb,0,wx.ALL|wx.ALIGN_LEFT,10)
+        rhsSizer.Add(self.enterOther,0,wx.ALL|wx.ALIGN_LEFT,10)
+        rhsSizer.Add(self.nounBtn,0,wx.ALL|wx.ALIGN_LEFT,10)
+        rhsSizer.Add(self.verbBtn,0,wx.ALL|wx.ALIGN_LEFT,10)
+        rhsSizer.Add(self.adjBtn,0,wx.ALL|wx.ALIGN_LEFT,10)
+        rhsSizer.Add(self.adverbBtn,0,wx.ALL|wx.ALIGN_LEFT,10)
+        rhsSizer.Add(self.otherBtn,0,wx.ALL|wx.ALIGN_LEFT,10)
+        
+        self.langPanel.SetSizer(rhsSizer)
+        
+
         self.otherBtn.Bind(wx.EVT_BUTTON, self.addOther)
         self.nounBtn.Bind(wx.EVT_BUTTON, self.addNoun)
         self.verbBtn.Bind(wx.EVT_BUTTON, self.addVerb)
@@ -340,16 +359,35 @@ class TestFrame(wx.Frame):
         lang = self.addLangBox.GetLineText(0)
         self.addLangBox.SetLabelText("")
         numLangs = loadPickle("./Sections/numLangs.txt")
+<<<<<<< HEAD
         try:
             addLanguage(lang)
             numLangs = numLangs + 1
             dumpPickle("./Sections/numLangs.txt",numLangs)
         except:
             print("Didn't succesfully add language")
+=======
+        if lang == "":
+            return
+        
+        
+        box = wx.MessageDialog(None, f"Add the language, {lang}?", "Add Language", wx.YES_NO)
+        res = box.ShowModal()
+        if res == wx.ID_YES:
+        
+            try:
+                addLanguage(lang)
+                numLangs = numLangs + 1
+                dumpPickle("./Sections/numLangs.txt",numLangs)
+            except:
+                print("Didnt' succesfully add language")
+>>>>>>> reformat
 
-        self.grid.ClearGrid()
-        newWords = loadPickle(f"./Sections/{self.currentGrid}.txt")
-        displayWords(self.grid, newWords)
+            self.grid.ClearGrid()
+            newWords = loadPickle(f"./Sections/{self.currentGrid}.txt")
+            displayWords(self.grid, newWords)
+        else:
+            return
         
 
     #Remove a language from the grid  
@@ -360,18 +398,16 @@ class TestFrame(wx.Frame):
         words = loadPickle("./Sections/words.txt")
         
         if (language not in words[list(words.keys())[0]] and language != 'English'):
-            box2 = wx.MessageDialog(None,f"THat language is not in the data, Please enter language exactly as seen on the table","Remove Language",wx.OK)
+            box2 = wx.MessageDialog(None,f"THat language is not in the data, Please enter language as seen on the table","Remove Language",wx.OK)
             box2.Destroy()
         elif (language == 'English'):
-            box2 = wx.MessageDialog(None,f"English cannot be removed, the words for all languages are stored with relation to their English counterpart","Remove Language",wx.OK)
+            box2 = wx.MessageDialog(None,f"English cannot be removed","Remove Language",wx.OK)
             box2.Destroy()
         else:
-            NO = 5104
-            YES = 5103
             box = wx.MessageDialog(None,f"Are you sure you want to permanently remove {language}?",f"Remove {language}",wx.YES_NO)
             response = box.ShowModal()
             box.Destroy()
-            if (response == YES):
+            if (response == wx.ID_YES):
                 self.removeLang(language)
             else:
                 return
@@ -379,20 +415,23 @@ class TestFrame(wx.Frame):
     #DOn't allow english to be removed
     def removeLang(self, lang):
         numLangs = loadPickle("./Sections/numLangs.txt")
+        
         try:
             delLanguage(lang)
             numLangs = numLangs - 1
             dumpPickle("./Sections/numLangs.txt", numLangs)
+            self.grid.ClearGrid()
+            data = loadPickle(f"./Sections/{self.currentGrid}.txt")
+            for i in range(numLangs):
+                if self.grid.GetColLabelValue(i) == lang:
+                    self.grid.DeleteCols(i) 
+            displayWords(self.grid, data)
         except:
             print("Something went wrong, remove language didn't work")
+            return
         
-        self.grid.ClearGrid()
-        data = loadPickle(f"./Sections/{self.currentGrid}.txt")
-        for i in range(numLangs):
-            if self.grid.GetColLabelValue(i) == lang:
-                self.grid.DeleteCols(i) 
-        displayWords(self.grid, data)
-        return   
+        
+       
 
 
 
@@ -559,9 +598,9 @@ class TestFrame(wx.Frame):
         #Load data -> Grab current languages -> Initalize them in the dic variable
         d = loadPickle("./Sections/words.txt")
         langs = list(d[list(d)[0]])
-        dic = {"Enter here": {}}
+        dic = {label: {}}
         for l in langs:
-            dic["Enter here"][l] = ""
+            dic[label][l] = ""
 
 
         if (section == "Nouns"):
@@ -587,33 +626,63 @@ class TestFrame(wx.Frame):
             
     def addNoun(self,e):
         newSection = self.enterNoun.GetLineText(0)
-        idx = self.tree.GetChildrenCount(self.nouns,recursively=False)
-        self.newLabel = self.tree.InsertItem(self.nouns, idx, newSection)
-        self.addFile(newSection,"Nouns")
+        if newSection == "":
+            return
+        box = wx.MessageDialog(None,f"Add the {newSection} section?","Add Section",wx.YES_NO)
+        res = box.ShowModal()
+        box.Destroy()
+        if res == wx.ID_YES:
+            idx = self.tree.GetChildrenCount(self.nouns,recursively=False)
+            self.newLabel = self.tree.InsertItem(self.nouns, idx, newSection)
+            self.addFile(newSection,"Nouns")
         self.enterNoun.SetLabelText("")
     def addVerb(self,e):
         newSection = self.enterVerb.GetLineText(0)
-        idx = self.tree.GetChildrenCount(self.verbs,recursively=False)
-        self.newLabel = self.tree.InsertItem(self.verbs, idx, newSection)
-        self.addFile(newSection,"Verbs")
+        if newSection == "":
+            return
+        box = wx.MessageDialog(None,f"Add the {newSection} section?","Add Section",wx.YES_NO)
+        res = box.ShowModal()
+        box.Destroy()
+        if res == wx.ID_YES:
+            idx = self.tree.GetChildrenCount(self.verbs,recursively=False)
+            self.newLabel = self.tree.InsertItem(self.verbs, idx, newSection)
+            self.addFile(newSection,"Verbs")
         self.enterVerb.SetLabelText("")
     def addAdj(self,e):
         newSection = self.enterAdj.GetLineText(0)
-        idx = self.tree.GetChildrenCount(self.adjectives,recursively=False)
-        self.newLabel = self.tree.InsertItem(self.adjectives, idx, newSection)
-        self.addFile(newSection,"Adjectives")
+        if newSection == "":
+            return
+        box = wx.MessageDialog(None,f"Add the {newSection} section?","Add Section",wx.YES_NO)
+        res = box.ShowModal()
+        box.Destroy()
+        if res == wx.ID_YES:
+            idx = self.tree.GetChildrenCount(self.adjectives,recursively=False)
+            self.newLabel = self.tree.InsertItem(self.adjectives, idx, newSection)
+            self.addFile(newSection,"Adjectives")
         self.enterAdj.SetLabelText("")
     def addAdverbs(self,e):
         newSection = self.enterAdverb.GetLineText(0)
-        idx = self.tree.GetChildrenCount(self.adverbs,recursively=False)
-        self.newLabel = self.tree.InsertItem(self.adverbs, idx, newSection)
-        self.addFile(newSection,"Adverbs")
+        if newSection == "":
+            return
+        box = wx.MessageDialog(None,f"Add the {newSection} section?","Add Section",wx.YES_NO)
+        res = box.ShowModal()
+        box.Destroy()
+        if res == wx.ID_YES:
+            idx = self.tree.GetChildrenCount(self.adverbs,recursively=False)
+            self.newLabel = self.tree.InsertItem(self.adverbs, idx, newSection)
+            self.addFile(newSection,"Adverbs")
         self.enterAdverb.SetLabelText("")
     def addOther(self,e):
         newSection = self.enterOther.GetLineText(0)
-        idx = self.tree.GetChildrenCount(self.other,recursively=False)
-        self.newLabel = self.tree.InsertItem(self.other, idx, newSection)
-        self.addFile(newSection,"Other")
+        if newSection == "":
+            return
+        box = wx.MessageDialog(None,f"Add the {newSection} section?","Add Section",wx.YES_NO)
+        res = box.ShowModal()
+        box.Destroy()
+        if res == wx.ID_YES:
+            idx = self.tree.GetChildrenCount(self.other,recursively=False)
+            self.newLabel = self.tree.InsertItem(self.other, idx, newSection)
+            self.addFile(newSection,"Other")
         self.enterOther.SetLabelText("")
     
         
@@ -636,14 +705,13 @@ class TestFrame(wx.Frame):
                     
     def deleteSection(self,e):
         #Check parent -> THen remove from that sectionList and pickle -> remove node with function
-        NO = 5104
-        YES = 5103
+        
         treeItem = self.tree.GetFocusedItem()  #wx TreeItem
         title = self.tree.GetItemText(treeItem)
         box = wx.MessageDialog(None,f"Are you sure you want to delete the {title} section?","Delete Section",wx.YES_NO)
         response = box.ShowModal()
         box.Destroy()
-        if (response == YES):
+        if (response == wx.ID_YES):
               
             deletedParent = self.tree.GetItemParent(treeItem)  #wx TreeItem of parent
             self.tree.Delete(treeItem)
@@ -693,12 +761,18 @@ class TestFrame(wx.Frame):
             
             if (os.path.exists(f"./Sections/{title}.txt")):
                 os.remove(f"./Sections/{title}.txt")
+<<<<<<< HEAD
         elif (response == NO):
             print("Nothing was deleted.")
+=======
+            
+            self.grid.ClearGrid()
+        
+>>>>>>> reformat
         else:
-            pass
+            return
 
-        self.grid.ClearGrid()
+        
           
 app = wx.App()
 frame = TestFrame()

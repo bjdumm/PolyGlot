@@ -2,6 +2,7 @@ import googletrans
 import os
 from utils import loadPickle,dumpPickle
 import time
+import wx
 
 #Manually set numLangs to the second value
 #dumpPickle("numLangs.txt",5)
@@ -40,8 +41,5 @@ import time
 #        dic[k]["Mandarin"] = ""
 #    print(f"Thsi is the data for {sections[sec]}\n\n")
 #    print(dic)
-
-
-isFirstTime = loadPickle("./Sections/FirstTime.txt")
 
 
