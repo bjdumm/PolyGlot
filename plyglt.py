@@ -75,7 +75,6 @@ class TestFrame(wx.Frame):
 
         #Left Hand Tree
         self.treePanel = wx.Panel(self, size=wx.Size(250,1800), pos= wx.Point(0,0))
-        
         self.tree = wx.TreeCtrl(self.treePanel,size=wx.Size(150,3000))
         self.tree.SetBackgroundColour("Dark Olive Green")
         self.tree.SetForegroundColour("White")
@@ -106,6 +105,10 @@ class TestFrame(wx.Frame):
             self.tree.InsertItem(self.other,idx,k)
 
         self.tree.Bind(wx.EVT_TREE_ITEM_ACTIVATED, self.ChangeContent)
+        self.tree.Expand(root)
+
+
+
         
         #Center Grid
         self.gridPanel = wx.Panel(self, size=wx.Size(1025,1000), pos=wx.Point(150,0))
