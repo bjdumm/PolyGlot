@@ -1,6 +1,6 @@
 # PolyGlot
 Simple wxPython app for studying vocabulary across multiple languages at once
----
+
 The goal for this project was to create a simple app that is also useful in order to get experience creating GUIs in Python. 
 The user interface was created using wxPython. The automatic translations for the words is carried out by calling the Google Translate
 services provided through the GoogleTrans Python package. These translation aren't perfect because the context isn't always inferred correctly, so
