@@ -16,7 +16,8 @@ Several languages are provided already with translations filled in by Google tra
 translated in the appropriate context.  Simply edit the word in any cell to change and automatically save the new word. Enabling the auto-fill option will fill in all currently
 empty words in the row that has been changed using Google translate. Disable this option to manually enter each translation. Keep in mind that the automatic translations may not always
 be accurate. To add a language, type the language into the text box next to
-the "Add Language" option and click the button. Be sure to spell the language correctly so that Google translate can recognize it for the auto-fill option. 
+the "Add Language" option and click the button. Be sure to spell the language correctly so that Google translate can recognize it for the auto-fill option. 'Add Section' 
+allows you to create a new section under one of the parts of speech categories on the left hand tree. 
 '''
 
 helpText = ''' Enter words 
