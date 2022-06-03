@@ -13,5 +13,5 @@ who needs to learn or review several languages and would like to be able to do s
 
 ## Using the app
 
-The layout is minimal with a tree control on the left hand side where the sections for your vocabulary is displayed. The central grid is an excel-like
+The layout is minimal with a tree control on the left hand side where the sections for your vocabulary are displayed. The central grid is an excel-like
 data grid with the languages at the header of each column. By default, upon entering a word into the grid, Google translate will automatically fill in the entire row with the translations for each language you currently have. This feature can be disabled to manually enter your own translations. Most of the functions are carried out through buttons and text boxes on the right hand side as of now. You are able to add or remove a language, add new sections for vocabulary, sort or randomize the word order, hide and show certain languages without deleting the content, and automatically fill all empty cells for a single language at once. 
