@@ -217,17 +217,19 @@ class TestFrame(wx.Frame):
         delBtn = wx.Button(self.langPanel,label="Delete Selected Section",size=wx.Size(150,50),pos=wx.Point(250,425))
         delBtn.Bind(wx.EVT_BUTTON,self.deleteSection)
          
-        self.addLangBox = wx.TextCtrl(self.langPanel,-1,"",wx.Point(175,150))
-        self.addLangBox.SetInsertionPoint(0)
-        addLangBtn = wx.Button(self.langPanel,label="Add Language: ", size=wx.Size(135,23),pos=wx.Point(25,150))
-        addLangBtn.Bind(wx.EVT_BUTTON, self.addLang)
-        self.removeLangBox = wx.TextCtrl(self.langPanel,-1,"",wx.Point(475,150))
-        self.removeLangBox.SetInsertionPoint(0)
-        remLangBtn = wx.Button(self.langPanel,label="Remove Language: ", size=wx.Size(135,23),pos=wx.Point(325,150))
-        remLangBtn.Bind(wx.EVT_BUTTON, self.removeOnClick)
         
+        self.langChoices = ["Spanish", "Italian", "German", "French", "Russian", "Greek", "Latin", "Mandarin", "Hindi", "Portuguese", "Swedish", "Norwegian", "Dutch", "Indonesian"]
+        self.addLangText = wx.StaticText(self.langPanel,label="Add Language: ", size=wx.Size(135,23),pos=wx.Point(25,150))
+        self.addLangText.SetForegroundColour(wx.Colour(255,0,0))
+        self.addLangText.SetFont(wx.Font(14, family=wx.FONTFAMILY_MODERN, style= 0, weight = 90))
+        self.addLangChoice = wx.Choice(self.langPanel, -1, pos=wx.Point(175, 150), choices = self.langChoices)
+        self.addLangChoice.Bind(wx.EVT_CHOICE, self.addLang)
         
-    
+        self.removeLangText = wx.StaticText(self.langPanel,label="Remove Language: ", size=wx.Size(135,23),pos=wx.Point(325,150))
+        self.removeLangText.SetFont(wx.Font(14, family=wx.FONTFAMILY_MODERN, style= 0, weight = 90))
+        self.removeLangChoice = wx.Choice(self.langPanel,-1, pos=wx.Point(475,150), choices=self.langChoices)
+        self.removeLangChoice.Bind(wx.EVT_CHOICE, self.removeOnClick)
+        
    
   
         
@@ -240,7 +242,6 @@ class TestFrame(wx.Frame):
 
     def showHelp(self, e):
         #Help Text box
-        print("helpme")
         helpDlg = wx.MessageDialog(None, helpText, "PolyGlot Help", wx.OK)
         response = helpDlg.ShowModal()
         
@@ -369,12 +370,19 @@ class TestFrame(wx.Frame):
 
     #Add a language to the grid
     def addLang(self,e):
-        lang = self.addLangBox.GetLineText(0)
-        self.addLangBox.SetLabelText("")
+        
+        #lang = self.addLangBox.GetLineText(0) #Change this to get wxChoice selection
+        #self.addLangBox.SetLabelText("") #Delete this, or change it to reset wx choice to default
+
+        obj = e.GetEventObject()
+        idx = obj.GetCurrentSelection()
+        lang = obj.GetString(idx)
+
+        print("HERe is " , lang)
+
         numLangs = loadPickle("./Sections/numLangs.txt")
         if lang == "":
             return
-        
         
         box = wx.MessageDialog(None, f"Add the language, {lang}?", "Add Language", wx.YES_NO)
         res = box.ShowModal()
@@ -396,8 +404,10 @@ class TestFrame(wx.Frame):
 
     #Remove a language from the grid  
     def removeOnClick(self,e):
-        language = self.removeLangBox.GetLineText(0)
-        self.removeLangBox.SetLabelText("")
+        
+        obj = e.GetEventObject()
+        idx = obj.GetCurrentSelection()
+        language = obj.GetString(idx)
         #language = language.lower()
         words = loadPickle("./Sections/words.txt")
         
@@ -547,7 +557,7 @@ class TestFrame(wx.Frame):
                     except:
                         print("Adding new english key for auto fill disabled when English is empty failed. Try again\n\n\n")
                     
-        #Should you load it at all?????????????!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        
         if (self.currentGrid == "words"):
             dumpPickle("./Sections/words.txt",dic)
             new = loadPickle("./Sections/words.txt")           
