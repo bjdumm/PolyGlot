@@ -10,7 +10,8 @@ import wx
 #print("The current number of languages is set at : ", num)
 
 #Check current Sections:
-#secs = loadPickle("sections.txt")
+secs = loadPickle("./Sections/Future.txt")
+print(secs)
 #print("The current sections are " , secs)
 
 #Check current Adverb Sections
