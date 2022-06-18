@@ -63,6 +63,6 @@ def checkFile(file):
     f = loadPickle(file)
     print(f)
 
-#checkFile("./Sections/Animals.txt")
+checkFile("./Sections/words.txt")
 
 

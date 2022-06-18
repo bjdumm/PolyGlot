@@ -47,6 +47,7 @@ def list_languages():
 
 
 #s = translate_text("de", "Test")
+"""
 available = list_languages()
 lang = "German"
 iso = ""
@@ -54,3 +55,4 @@ for l in available:
     if l['name'] == lang:
         iso = l['language']
 print(iso)
+"""

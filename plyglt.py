@@ -396,7 +396,7 @@ class TestFrame(wx.Frame):
         if res == wx.ID_YES:
         
             try:
-                addLanguage(lang)
+                addLanguage(lang, self.currentGrid)
                 numLangs = numLangs + 1
                 dumpPickle("./Sections/numLangs.txt",numLangs)
             except:

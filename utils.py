@@ -123,7 +123,7 @@ def addLanguage(newLang, grid):
     add = loadPickle(f"./Sections/{grid}.txt")
     for k in add:
         add[k][newLang] = ""
-    dumpPickle(f"./Sections/{grid}.txt")
+    dumpPickle(f"./Sections/{grid}.txt", add)
 
     #Load section -> Add lang : "" -> dump to txt file
     """
