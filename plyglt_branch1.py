@@ -4,7 +4,7 @@ import wx
 import wx.grid
 import os
 import pickle
-import googletrans as gt
+import translate as gt
 #from utils import loadPickle, dumpPickle, displayWords, numLangs, getLanguageAbbrev, getLanguageName
 from utils_branch1 import *
 

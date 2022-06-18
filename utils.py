@@ -112,7 +112,7 @@ def delLanguage(lang):
         dumpPickle(f"{nounSections[sec]}", dic)
 
 
-def addLanguage(newLang):
+def addLanguage(newLang, grid):
     nounSections = loadPickle("./Sections/nounSections.txt")
     otherSections = loadPickle("./Sections/otherSections.txt")
     adverbSections = loadPickle("./Sections/adverbSections.txt")
@@ -120,12 +120,19 @@ def addLanguage(newLang):
     verbSections = loadPickle("./Sections/verbSections.txt")
     sections = loadPickle("./Sections/sections.txt")
 
+    add = loadPickle(f"./Sections/{grid}.txt")
+    for k in add:
+        add[k][newLang] = ""
+    dumpPickle(f"./Sections/{grid}.txt")
+
+    #Load section -> Add lang : "" -> dump to txt file
+    """
     words = loadPickle("./Sections/words.txt")
     for k in words:
         words[k][newLang] = ""
     dumpPickle("./Sections/words.txt",words)
 
-    #Load section -> Add lang : "" -> dump to txt file
+
     for sec in sections:
         dic = loadPickle(f"{sections[sec]}")
         for k in dic:
@@ -161,7 +168,7 @@ def addLanguage(newLang):
         for k in dic:
             dic[k][newLang] = ""
         dumpPickle(f"{nounSections[sec]}", dic)
-    
+    """
     return
 
 

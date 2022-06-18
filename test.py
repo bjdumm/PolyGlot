@@ -1,4 +1,4 @@
-import googletrans
+import translate
 import os
 from utils import loadPickle,dumpPickle
 import time
@@ -10,8 +10,8 @@ import wx
 #print("The current number of languages is set at : ", num)
 
 #Check current Sections:
-secs = loadPickle("./Sections/Future.txt")
-print(secs)
+
+
 #print("The current sections are " , secs)
 
 #Check current Adverb Sections
@@ -42,5 +42,27 @@ print(secs)
 #        dic[k]["Mandarin"] = ""
 #    print(f"Thsi is the data for {sections[sec]}\n\n")
 #    print(dic)
+
+
+
+
+def removeBlank(lang1,lang2, file):
+    secs = loadPickle(file)
+    for s in secs:
+        secs[s].pop(lang1)
+        secs[s].pop(lang2)
+    print(secs)
+    dumpPickle(file, secs)
+
+
+#removeBlank("Dutch", "Swedish", "./Sections/Basic-Phrases.txt")
+
+
+
+def checkFile(file):
+    f = loadPickle(file)
+    print(f)
+
+#checkFile("./Sections/Animals.txt")
 
 

@@ -1,5 +1,5 @@
 from utils import loadPickle
-import googletrans as gt
+import translate as gt
 import time
 
 from utils import *

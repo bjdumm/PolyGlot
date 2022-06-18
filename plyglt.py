@@ -5,9 +5,10 @@ import wx
 import wx.grid
 import os
 import pickle
-import googletrans as gt
+import translate as gt
 #from utils import loadPickle, dumpPickle, displayWords, numLangs, getLanguageAbbrev, getLanguageName
 from utils import *
+from translate import list_languages, translate_text
 
 
 #Text
@@ -245,8 +246,8 @@ class TestFrame(wx.Frame):
         helpDlg = wx.MessageDialog(None, helpText, "PolyGlot Help", wx.OK)
         response = helpDlg.ShowModal()
         
-            
-    
+
+        
     def toggleAuto(self,e):
         obj = e.GetEventObject()
         option = obj.GetLabel()
@@ -263,12 +264,18 @@ class TestFrame(wx.Frame):
 
 
     def autoFill(self, e):
+        available = list_languages()
         dlg = wx.TextEntryDialog(frame, 'Enter the language as shown in the column header','Auto Fill Words')
         dlg.SetValue("")
         if dlg.ShowModal() == wx.ID_OK:
             language = dlg.GetValue().lower()
         dlg.Destroy()
         language = language[0].upper() + language[1:]
+        
+        iso = ""
+        for l in available:
+            if l['name'] == language:
+                iso = l['language']
         
         data = loadPickle(f"./Sections/{self.currentGrid}.txt")
         if language.lower() == "mandarin":
@@ -277,7 +284,7 @@ class TestFrame(wx.Frame):
                 wait2 = wx.BusyCursor()
                 for k in data:
                     if data[k][language] == "":
-                        data[k][language] = gt.Translator().translate(k, dest="zh-CN").text 
+                        data[k][language] = gt.Translator().translate(k, dest="zh-CN").text   #Add google cloud translate here
                     else:
                         continue
             except:
@@ -289,7 +296,7 @@ class TestFrame(wx.Frame):
             for k in data:
                 if data[k][language] == "":
                 
-                    data[k][language] = gt.Translator().translate(k, dest=language).text 
+                    data[k][language] = translate_text(iso, k)               #gt.Translator().translate(k, dest=language).text      #Add google cloud translate here
                 else:
                     continue
         except:

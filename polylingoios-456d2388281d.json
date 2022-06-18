@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "polylingoios",
+  "private_key_id": "456d2388281d9dbd9d2180fe0765ab594c44dd20",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvAIBADANBgkqhkiG9w0BAQEFAASCBKYwggSiAgEAAoIBAQCV5gyVXv270npK\nAZGX48RdfUpMqm6Gjy579/1VY5HnV7i2+PGcxv9svaE+WFNKrxTo7aRmoteg63+a\nG4W1VOk6jkY0nh39xADAnAer77RTbGd0YxrjOi110C1VfEArFZAJ0oXrEC6GkIGH\nbDgeqEOWfB9XE0a7XcR2pK1hStpc7LnaBLHlzipoY3eZ7BAEipZ1ugZ+rIfq5Vv5\n0NzFGdLC+BfEUwap10f9lnH9poLPAgCO42ZvlPOrkpUUm5gq+9AGQa+XHlHqvlXb\n3d500RbU4eA2bBOwKv8inyuAAZ0N64sitp/wzA5tuKx/ci7gXL+IQGjwg5Z64iAT\nJG2RQ28/AgMBAAECggEAO+kl11+Pdw2xLboByFzS43DLjOfDZAl/ETI1MPcqXfW8\nEHlgDAKnHP2PoBzqMVvXth8hCZqFJz5okh3061wkGXC605Xss7uud00Fbe1Qu9UE\nZkqj+PSMLd3F+Lg/51hnaN2ZA7HEfqjr9EXHCk3DMbarSgCc0Q8xkh/QYiXqL6Ab\nKnUh/DNTP6zazwONTRAvmPHjuSpU2GPo298erScFrf0dm3R5OCdVuTMTU/bVNvpv\npmB4LtEUmpQAgk3+EL/u5IGHU3d8bbjPG/BuIU2bWr6N5MVqxD4WwmQex22991tA\nZV1JA1KRdO9yzP8bTvYz07TsSW55M+q+jXS4wfgHyQKBgQDH/OrfCKDFb5WhpIax\nFEcmYjvU5QfXonBZ0cPHOFRtpaAhqQdcqkdipedXgA/X6l+uiVKfiP1vVNt9NeEh\nEWeSrPT1MlBwgxBd18qbqFHbP0kl8QqSEzDwbdPgPf4tZThNmNCYQ8hD+noR3aoU\nUg2HlUyzZCpFppfqiLEFbYFiiQKBgQC/4b2GKzDKisifL0uJYOM1CJ2BkhQB+hOf\nqD6NRsbc1YBPWhWHA1qIwjOYtsBuuFMmStufBvz4foa0RqJrRE722pBO214Ml3lh\nNGyH2IGXa/Z1Tn3WzTcDpJYJdnZWn5gWXZ0J1a+jk40vVITQz1Y2p6o30IzVwjHl\n57JArrpxhwKBgAQCfCsQnziWLifZhqHSSELqwUxZczjNlvcWD5jU9kxkf7ttCiq/\nd0LxFJxagvbPSi/TrQZp1rr+to/iHqttD+iO8zJfWeGHnzJiezt3unxs3miWVqHr\nJJYNfawHUitS1jgoEjabVU6XnQ7ypNBXfNH1Gl6WaYqP9ofLSdFUCr4RAoGAX18W\nUl+ZSrKccPKS+t9bTvrPPp2asDjaFBsNrC6nnQ/JTKeb15WFJEBSYO9EykN3oKrI\nakyQ4/oPff81r1cuYGfWHjvOjTekrvndj8++6cJRp5Cx31f0piziHiXxP7DnaQZy\njXbWa9lk7Ud3FEpZsaS4aDGSLpTtNDZrVNcD+HUCgYBoO1R1zUplQJsQ/0DjBAVN\nB05kNMhcODezS9VBZOolVvB2e0Rpninx6Gf/sHjc7BhPRJ6WjICJPykmdWSTinfC\nucxy5giR37BStQQFwAP3yGvl99r4XJuN2lGnVyXaFUa4yLt4+h71r1JEAs8aR0rN\nrq/+QAw+FHE/c9GKmKQNew==\n-----END PRIVATE KEY-----\n",
+  "client_email": "polyglotwindows@polylingoios.iam.gserviceaccount.com",
+  "client_id": "109644762730331094739",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/polyglotwindows%40polylingoios.iam.gserviceaccount.com"
+}
