@@ -46,16 +46,17 @@ import wx
 
 
 
-def removeBlank(lang1,lang2, file):
+def removeBlank(lang1, file):
     secs = loadPickle(file)
     for s in secs:
         secs[s].pop(lang1)
-        secs[s].pop(lang2)
+       # secs[s].pop(lang2)
     print(secs)
     dumpPickle(file, secs)
+    print("Successo")
 
 
-#removeBlank("Dutch", "Swedish", "./Sections/Basic-Phrases.txt")
+#removeBlank("Irish", "./Sections/words.txt")
 
 
 
@@ -63,6 +64,6 @@ def checkFile(file):
     f = loadPickle(file)
     print(f)
 
-checkFile("./Sections/words.txt")
+#checkFile("./Sections/words.txt")
 
 
