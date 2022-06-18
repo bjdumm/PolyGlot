@@ -219,7 +219,7 @@ class TestFrame(wx.Frame):
         delBtn.Bind(wx.EVT_BUTTON,self.deleteSection)
          
         
-        self.langChoices = ["Spanish", "Italian", "German", "French", "Russian", "Greek", "Latin", "Mandarin", "Hindi", "Portuguese", "Swedish", "Norwegian", "Dutch", "Indonesian"]
+        self.langChoices = ["Spanish", "Italian", "German", "French", "Russian", "Greek", "Latin", "Mandarin", "Hindi", "Portuguese", "Swedish", "Norwegian", "Dutch", "Indonesian", "Arabic"]
         self.addLangText = wx.StaticText(self.langPanel,label="Add Language: ", size=wx.Size(135,23),pos=wx.Point(25,150))
         self.addLangText.SetForegroundColour(wx.Colour(255,0,0))
         self.addLangText.SetFont(wx.Font(14, family=wx.FONTFAMILY_MODERN, style= 0, weight = 90))
