@@ -219,8 +219,8 @@ class TestFrame(wx.Frame):
         delBtn.Bind(wx.EVT_BUTTON,self.deleteSection)
          
         
-        self.langChoices = ["Spanish", "Italian", "German", "French", "Russian", "Greek", "Latin", "Mandarin", "Hindi", "Portuguese", "Swedish", "Norwegian", "Dutch", "Indonesian", "Arabic", "Japanese",
-        "Irish","Hungarian", "Polish", "Romanian", "Slovakian", "Serbian"]
+        self.langChoices = ["Spanish", "Italian", "German", "French", "Russian", "Greek", "Latin", "Hindi", "Portuguese", "Swedish", "Norwegian", "Dutch", "Indonesian", "Arabic", "Japanese",
+        "Irish","Hungarian", "Polish", "Romanian", "Slovakian", "Serbian", "Chinese"]
         self.addLangText = wx.StaticText(self.langPanel,label="Add Language: ", size=wx.Size(135,23),pos=wx.Point(25,150))
         self.addLangText.SetForegroundColour(wx.Colour(255,0,0))
         self.addLangText.SetFont(wx.Font(14, family=wx.FONTFAMILY_MODERN, style= 0, weight = 90))
@@ -279,13 +279,13 @@ class TestFrame(wx.Frame):
                 iso = l['language']
         
         data = loadPickle(f"./Sections/{self.currentGrid}.txt")
-        if language.lower() == "mandarin":
+        if language.lower() == "chinese":
             try:
                 wait = wx.BusyInfo("Please wait, the words are currently being filled in, this may take a few minutes for a large number of words...")
                 wait2 = wx.BusyCursor()
                 for k in data:
                     if data[k][language] == "":
-                        data[k][language] = gt.Translator().translate(k, dest="zh-CN").text   #Add google cloud translate here
+                        data[k][language] =  translate_text("zh-CN" , k)    #gt.Translator().translate(k, dest="zh-CN").text   #Add google cloud translate here
                     else:
                         continue
             except:

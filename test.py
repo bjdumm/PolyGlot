@@ -56,7 +56,7 @@ def removeBlank(lang1, file):
     print("Successo")
 
 
-#removeBlank("Irish", "./Sections/words.txt")
+#removeBlank("Mandarin", "./Sections/words.txt")
 
 
 
@@ -64,6 +64,6 @@ def checkFile(file):
     f = loadPickle(file)
     print(f)
 
-#checkFile("./Sections/words.txt")
+checkFile("./Sections/words.txt")
 
 

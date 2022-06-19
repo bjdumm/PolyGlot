@@ -43,10 +43,25 @@ def translate_text(target, text):
 def list_languages():
     tc = trans.Client()
     results = tc.get_languages()
+    print(results)
     return results
 
-
+#list_languages()
 #s = translate_text("de", "Test")
+
+print(translate_text("zh-CN", "Hello"))
+
+
+
+
+
+
+
+
+
+
+
+
 """
 available = list_languages()
 lang = "German"
