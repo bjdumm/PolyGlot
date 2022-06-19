@@ -49,7 +49,7 @@ def list_languages():
 #list_languages()
 #s = translate_text("de", "Test")
 
-print(translate_text("zh-CN", "Hello"))
+
 
 
 
