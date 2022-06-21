@@ -65,5 +65,3 @@ def checkFile(file):
     print(f)
 
 #checkFile("./Sections/words.txt")
-
-
