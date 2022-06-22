@@ -220,7 +220,7 @@ class TestFrame(wx.Frame):
          
         
         self.langChoices = ["Spanish", "Italian", "German", "French", "Russian", "Greek", "Latin", "Hindi", "Portuguese", "Swedish", "Norwegian", "Dutch", "Indonesian", "Arabic", "Japanese",
-        "Irish","Hungarian", "Polish", "Romanian", "Slovakian", "Serbian", "Chinese", "Icelandic", "Korean", "Hebrew", "Bengali", "Danish", "Haitian Creole", "Afrikaans"]
+        "Irish","Hungarian", "Polish", "Romanian", "Slovakian", "Serbian", "Chinese", "Icelandic", "Korean", "Hebrew", "Bengali", "Danish", "Afrikaans"]
         self.addLangText = wx.StaticText(self.langPanel,label="Add Language: ", size=wx.Size(135,23),pos=wx.Point(25,150))
         self.addLangText.SetForegroundColour(wx.Colour(255,0,0))
         self.addLangText.SetFont(wx.Font(14, family=wx.FONTFAMILY_MODERN, style= 0, weight = 90))
