@@ -43,7 +43,7 @@ def translate_text(target, text):
 def list_languages():
     tc = trans.Client()
     results = tc.get_languages()
-    print(results)
+    #print(results)
     return results
 
 #list_languages()

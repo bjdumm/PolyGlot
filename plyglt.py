@@ -495,15 +495,12 @@ class TestFrame(wx.Frame):
         oldWord = e.GetString()
         newWord = self.grid.GetCellValue(row , col)
         numberOfLangs = len(dic[list(dic)[0]])
-        translator = gt.Translator()
+      #  translator = gt.Translator()
 
 
         #Iso codes
         available = list_languages()
-        iso = ""
-        for l in available:
-            if l['name'] == lang:
-                iso = l['language']
+        
         
         if (lang == 'English'):    #If english was changed -> THen....
             if (newWord == ""):
@@ -515,8 +512,12 @@ class TestFrame(wx.Frame):
                         fCol = self.grid.GetColLabelValue(i)
                         foreignWord = self.grid.GetCellValue(row, i)
                         if foreignWord == "" and self.autoFillOn:
+                            iso = ""
+                            for l in available:
+                                if l['name'] == fCol:
+                                    iso = l['language']
                             try:
-                                if lang != 'Chinese':
+                                if fCol != 'Chinese':
                                     translated = translate_text(iso, newWord) #translator.translate(newWord, dest=fCol).text
                                 else:
                                     translated = translate_text("zh-CN", newWord)    

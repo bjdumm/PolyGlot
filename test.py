@@ -12,7 +12,7 @@ import wx
 #Check current Sections:
 
 
-#print("The current sections are " , secs)
+#print("The     current sections are " , secs)
 
 #Check current Adverb Sections
 #adv = loadPickle("adverbSections.txt")
@@ -49,14 +49,17 @@ import wx
 def removeBlank(lang1, file):
     secs = loadPickle(file)
     for s in secs:
-        secs[s].pop(lang1)
+        try:
+            secs[s].pop(lang1)
+        except:
+            continue
        # secs[s].pop(lang2)
     print(secs)
     dumpPickle(file, secs)
     print("Successo")
 
 
-#removeBlank("Mandarin", "./Sections/words.txt")
+removeBlank("Chinese", "./Sections/Future.txt")
 
 
 
@@ -64,4 +67,4 @@ def checkFile(file):
     f = loadPickle(file)
     print(f)
 
-#checkFile("./Sections/words.txt")
+#checkFile("./Sections/Future.txt")
