@@ -265,7 +265,7 @@ class TestFrame(wx.Frame):
 
 
     def autoFill(self, e):
-        available = list_languages()
+        
         dlg = wx.TextEntryDialog(frame, 'Enter the language as shown in the column header','Auto Fill Words')
         dlg.SetValue("")
         if dlg.ShowModal() == wx.ID_OK:
@@ -273,6 +273,7 @@ class TestFrame(wx.Frame):
         dlg.Destroy()
         language = language[0].upper() + language[1:]
         
+        available = list_languages()
         iso = ""
         for l in available:
             if l['name'] == language:
@@ -495,6 +496,14 @@ class TestFrame(wx.Frame):
         newWord = self.grid.GetCellValue(row , col)
         numberOfLangs = len(dic[list(dic)[0]])
         translator = gt.Translator()
+
+
+        #Iso codes
+        available = list_languages()
+        iso = ""
+        for l in available:
+            if l['name'] == lang:
+                iso = l['language']
         
         if (lang == 'English'):    #If english was changed -> THen....
             if (newWord == ""):
@@ -507,7 +516,10 @@ class TestFrame(wx.Frame):
                         foreignWord = self.grid.GetCellValue(row, i)
                         if foreignWord == "" and self.autoFillOn:
                             try:
-                                translated = translator.translate(newWord, dest=fCol).text
+                                if lang != 'Chinese':
+                                    translated = translate_text(iso, newWord) #translator.translate(newWord, dest=fCol).text
+                                else:
+                                    translated = translate_text("zh-CN", newWord)    
                                 dic[newWord][fCol] = translated
                                 self.grid.SetCellValue(row, i, translated)
                             except:
