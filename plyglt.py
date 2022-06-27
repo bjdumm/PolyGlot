@@ -731,12 +731,12 @@ class TestFrame(wx.Frame):
                 dic = loadPickle("./Sections/words.txt")
                 self.grid.ClearGrid()
                 sorted = sortDic(dic)
-                displayWords(self.grid, sorted)
+                displayWords(self.grid, dic)
             else:
                 dic = loadPickle(f"./Sections/{item}.txt")  
                 sorted = sortDic(dic)
                 if (len(dic) > 0):
-                    displayWords(self.grid, sorted)
+                    displayWords(self.grid, dic)
                     
     def deleteSection(self,e):
         #Check parent -> THen remove from that sectionList and pickle -> remove node with function

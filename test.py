@@ -67,4 +67,4 @@ def checkFile(file):
     f = loadPickle(file)
     print(f)
 
-checkFile("./Sections/Problem Words.txt")
+#checkFile("./Sections/Numbers.txt")
