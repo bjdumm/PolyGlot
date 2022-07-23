@@ -1,8 +1,10 @@
-import translate
+from translate import translate_text, list_languages
 import os
 from utils import loadPickle,dumpPickle
 import time
 import wx
+
+
 
 #Manually set numLangs to the second value
 #dumpPickle("numLangs.txt",5)
@@ -46,6 +48,7 @@ import wx
 
 
 
+
 def removeBlank(lang1, file):
     secs = loadPickle(file)
     for s in secs:
@@ -68,3 +71,44 @@ def checkFile(file):
     print(f)
 
 #checkFile("./Sections/Numbers.txt")
+
+
+def fillLang(filename):
+
+    data = loadPickle(f"Sections/{filename}.txt")
+    available = list_languages()
+
+    fKeys = list(data[list(data.keys())[0]].keys())
+    for language in fKeys:
+        iso = ""
+        for l in available:
+            if l['name'] == language:
+                iso = l['language']
+        if language.lower() == "chinese":
+                try:
+                   
+                    for k in data:
+                        if data[k][language] == "":
+                            data[k][language] =  translate_text("zh-CN" , k)    #gt.Translator().translate(k, dest="zh-CN").text   #Add google cloud translate here
+                        else:
+                            continue
+                except:
+                    print("Sorry didn't work.")
+
+        try:
+            
+            for k in data:
+                if data[k][language] == "":
+                
+                    data[k][language] = translate_text(iso, k)               #gt.Translator().translate(k, dest=language).text      #Add google cloud translate here
+                else:
+                    continue
+        except:
+            print("Can't find that language with Googie Trans\n")
+
+    dumpPickle(f"./Sections/{filename}.txt" , data)        
+    print(f"\n\nSuccessfully filled words for {filename}")
+    
+
+
+#fillLang("Past")
