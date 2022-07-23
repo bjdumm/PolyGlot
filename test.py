@@ -74,7 +74,7 @@ def checkFile(file):
 
 
 def fillLang(filename):
-
+    print(f"filling words for {filename}...")
     data = loadPickle(f"Sections/{filename}.txt")
     available = list_languages()
 
@@ -111,4 +111,4 @@ def fillLang(filename):
     
 
 
-#fillLang("Past")
+fillLang("Past Perfect")
