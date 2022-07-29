@@ -129,5 +129,5 @@ def findReplace(filename):
 
 
 
-#fillLang("Participles")
-#findReplace("Participles")
+#fillLang("Basic-Phrases")
+findReplace("Basic-Phrases")
