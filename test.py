@@ -113,21 +113,21 @@ def fillLang(filename):
 def findReplace(filename):
     print(f"Replacing words for {filename}...")
     data = loadPickle(f"Sections/{filename}.txt")
+    fKeys = list(data[list(data.keys())[0]].keys())
 
-    for k in data:
-        if '&#39;' in data[k]["French"]:
-            print(data[k]["French"])
-            data[k]["French"] = data[k]["French"].replace("&#39;", "'")
-            print(data[k]["French"])
-        if '&#39;' in data[k]["Italian"]:
-            print(data[k]["Italian"])
-            data[k]["Italian"] = data[k]["Italian"].replace("&#39;", "'")
-            print(data[k]["Italian"])
+    for fKey in fKeys:
+        for k in data:
+            if '&#39;' in data[k][fKey]:
+                print(data[k][fKey])
+                print(fKey)
+                data[k][fKey] = data[k][fKey].replace("&#39;", "'")
+                print(data[k][fKey])
+            
 
     dumpPickle(f"./Sections/{filename}.txt" , data)        
     print(f"\n\nSuccessfully replaced words for {filename}")
 
 
 
-#fillLang("Subjunctive")
-#findReplace("")
+#fillLang("Participles")
+#findReplace("Participles")
