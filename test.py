@@ -110,5 +110,24 @@ def fillLang(filename):
     print(f"\n\nSuccessfully filled words for {filename}")
     
 
+def findReplace(filename):
+    print(f"Replacing words for {filename}...")
+    data = loadPickle(f"Sections/{filename}.txt")
 
-fillLang("Environment-Landscapes")
+    for k in data:
+        if '&#39;' in data[k]["French"]:
+            print(data[k]["French"])
+            data[k]["French"] = data[k]["French"].replace("&#39;", "'")
+            print(data[k]["French"])
+        if '&#39;' in data[k]["Italian"]:
+            print(data[k]["Italian"])
+            data[k]["Italian"] = data[k]["Italian"].replace("&#39;", "'")
+            print(data[k]["Italian"])
+
+    dumpPickle(f"./Sections/{filename}.txt" , data)        
+    print(f"\n\nSuccessfully replaced words for {filename}")
+
+
+
+#fillLang("Subjunctive")
+#findReplace("")
