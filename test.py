@@ -104,11 +104,11 @@ def fillLang(filename):
                 else:
                     continue
         except:
-            print("Can't find that language with Googie Trans\n")
+            print("Can't find that language with Googie Trans\n") 
 
     dumpPickle(f"./Sections/{filename}.txt" , data)        
     print(f"\n\nSuccessfully filled words for {filename}")
     
 
 
-fillLang("Environment-Landscapes")
+fillLang("Body2")
